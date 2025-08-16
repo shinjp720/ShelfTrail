@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/style.css">
+    <script src="{{ site.baseurl }}/script.js" defer></script>
+    <link rel="icon" href="{{ site.baseurl }}/favicon.ico" type="image/x-icon">
+
+    <title>LearnPath</title>
+</head>
+
+<body>
+
+    <!-- 全体を表すコンテナ -->
+    <div id="container">
+
+        <!-- 左メニュー開閉ボタン -->
+        <button id="menuBtn">☰</button>
+        <!-- 右目次開閉ボタン -->
+        <button id="tocBtn">≡</button>
+
+        <!-- ナビゲーション -->
+        <div id="navi"></div>
+        <!-- メインコンテンツ -->
+        <div id="main"></div>
+        <!-- 目次 -->
+        <div id="toc">
+            <ul></ul>
+        </div>
+
+        <!-- 背景オーバーレイ -->
+        <div id="overlay"></div>
+    </div>
+
+</body>
+
+</html>
