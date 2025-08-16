@@ -3,7 +3,7 @@ title: プログラミング全般
 layout: default
 ---
 
-# プログラミング <a id="top" data-name="TOP"></a>
+# プログラミング全般 <a id="top" data-name="TOP"></a>
 
 - プログラミングにおける共通の知識
 
@@ -30,6 +30,7 @@ int foo() {      // 定義：fooという関数の本体
     return 1;
 }
 ```
+
 int x; も定義とみなされる（初期化してなくてもストレージが割り当てられる）。
 extern int x; は「宣言」のみで「定義」ではない。
 
@@ -53,6 +54,7 @@ if (a > 0) {  // if文（制御文）
 }
 int x = 3;    // 宣言文（declaration statement）
 ```
+
 Cでは文（statement）はセミコロンで終わる。関数の中で書けるのは基本的に文。
 
 ### 評価（evaluation）

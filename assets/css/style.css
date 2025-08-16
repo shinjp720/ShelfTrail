@@ -19,6 +19,12 @@ h3 {
     font-size: 2.6rem;
 }
 
+/* ナビのリスト */
+#navi ul {
+    list-style: none;
+    /* padding-left: 1rem; */
+}
+
 /* テーブル */
 table {
     border-collapse: collapse;
