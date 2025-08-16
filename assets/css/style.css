@@ -22,8 +22,9 @@ h3 {
 /* ナビのリスト */
 #navi ul {
     list-style: none;
-    /* padding-left: 1rem; */
+    padding-left: 1.6rem;
 }
+
 
 /* テーブル */
 table {
@@ -188,7 +189,7 @@ pre code {
     display: none;
 }
 
-/* ----------- スマホ・縦長用 スライドイン設定 ----------- */
+/* ----------- スマホ用 ----------- */
 @media screen and (max-width: 768px) {
     #container {
         display: block;
