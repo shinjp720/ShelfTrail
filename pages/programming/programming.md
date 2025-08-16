@@ -1,7 +1,9 @@
-<div data-title="プログラミング"></div>
-<a id="top" data-name="TOP"></a>
+---
+title: プログラミング全般
+layout: default
+---
 
-# プログラミング
+# プログラミング <a id="top" data-name="TOP"></a>
 
 - プログラミングにおける共通の知識
 

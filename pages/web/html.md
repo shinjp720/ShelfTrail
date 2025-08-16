@@ -1,7 +1,9 @@
-<div data-title="HTML"></div>
-<a id="top" data-name="TOP"></a>
+---
+title: HTML
+layout: default
+---
 
-# HTML
+# HTML <a id="top" data-name="TOP"></a>
 
 - **HTML(HyperText Markup Language)**はウェブページの構造を作るためのマークアップ言語。
 - 拡張子は.html。

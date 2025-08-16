@@ -1,7 +1,9 @@
-<div data-title="SQLite"></div>
-<a id="top" data-name="TOP"></a>
+---
+title: SQLite
+layout: default
+---
 
-# SQLite
+# SQLite <a id="top" data-name="TOP"></a>
 
 - SQLiteは単なるライブラリであり、データベースの操作はアプリケーションプロセス内で直接行われるため、MySQLやPostgreSQLのように専用のサーバーを立ち上げる必要がない。
 - データベース全体が単一のファイル(例: example.db)に格納されるため、ファイルをコピーするだけでバックアップができ、ファイルを他のマシンに移動すればそのまま使える。

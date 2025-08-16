@@ -1,7 +1,9 @@
-<div data-title="Markdown"></div>
-<a id="top" data-name="TOP"></a>
+---
+title: Markdown
+layout: default
+---
 
-# Markdown
+# Markdown <a id="top" data-name="TOP"></a>
 
 ---
 

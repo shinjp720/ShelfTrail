@@ -1,7 +1,9 @@
-<div data-title="VSCode"></div>
-<a id="top" data-name="TOP"></a>
+---
+title: VSCode
+layout: default
+---
 
-# VSCode
+# VSCode <a id="top" data-name="TOP"></a>
 
 - Microsoftが開発しているWindows、Linux、macOS、Web用のソースコードエディタで、フリーで高機能で人気のエディタ。
 

@@ -1,7 +1,9 @@
-<div data-title="C言語"></div>
-<a id="top" data-name="TOP"></a>
+---
+title: C言語
+layout: default
+---
 
-# C言語
+# C言語 <a id="top" data-name="TOP"></a>
 
 <a id="comment" data-name="コメント"></a>
 

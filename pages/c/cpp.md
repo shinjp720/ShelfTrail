@@ -1,3 +1,10 @@
+---
+title: C++
+layout: default
+---
+
+<div data-title="Linux"></div>
+
 <div data-title="C++"></div>
 
 # C++ <a id="top" data-name="TOP"></a>

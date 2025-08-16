@@ -1,7 +1,9 @@
-<div data-title="JavaScript"></div>
-<a id="top" data-name="TOP"></a>
+---
+title: JavaScript
+layout: default
+---
 
-# JavaScript
+# JavaScript <a id="top" data-name="TOP"></a>
 
 - 拡張子は**.js**
 - **命名規則**

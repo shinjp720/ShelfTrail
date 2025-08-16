@@ -1,7 +1,10 @@
-<div data-title="Linux"></div>
-<a id="top" data-name="TOP"></a>
+---
+title: Linux
+layout: default
+---
 
-# Linux
+# Linux <a id="top" data-name="TOP"></a>
+
 
 - Linuxは、UNIXを基にして開発されたオープンソースのオペレーティングシステム。
 

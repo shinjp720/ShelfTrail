@@ -1,6 +1,6 @@
 const naviUrl = "./layouts/navi.html";
 
-main();
+// main();
 
 async function main() {
     // history.replaceState(null, "", location.pathname);

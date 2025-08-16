@@ -1,7 +1,9 @@
-<div data-title="Makefile"></div>
-<a id="top" data-name="TOP"></a>
+---
+title: Makefile
+layout: default
+---
 
-# Makefile
+# Makefile <a id="top" data-name="TOP"></a>
 
 - 説明文
 
