@@ -54,6 +54,7 @@ layout: default
         <tr><td>Ctrl+T</td><td>ワークスペース内のシンボルを検索</td></tr>
         <tr><td>Ctrl+P または Ctrl+E</td><td>ファイルを検索して移動</td></tr>
         <tr><td>Ctrl+Shift+O</td><td>ファイル内のシンボルを検索</td></tr>
+        <tr><td>Ctrl+Shift+F</td><td>ワークスペース内検索</td></tr>
         <tr><td>Ctrl+T</td><td>ワークスペースからシンボルをあいまい検索</td></tr>
 </table>
 

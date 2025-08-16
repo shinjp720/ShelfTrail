@@ -174,13 +174,13 @@ if (int result = func(); result == 0)
 ---
 
 ### for文
-<div class="subtitle"></a>範囲for</div>
+<div class="subtitle"><a id="範囲for"></a>範囲for</div>
 
 <span class="code-like">for (型 変数名: 配列)</span>
 
 とすると配列の各要素を順番に回すことができる。
 
-<span class="code-like"><a id="範囲for"></a>for (auto 変数名: 配列)</span>
+<span class="code-like">for (auto 変数名: 配列)</span>
 
 とすると配列の要素の型に自動で推論される。
 

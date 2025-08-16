@@ -19,11 +19,18 @@ h3 {
     font-size: 2.6rem;
 }
 
-/* ナビのリスト */
+/* naviのリスト */
 #navi ul {
     list-style: none;
     padding-left: 1.6rem;
 }
+
+/* tocのリスト */
+#toc ul {
+    list-style: none;
+}
+
+
 
 
 /* テーブル */
@@ -147,8 +154,6 @@ pre code {
     width: 250px;
     overflow-y: auto;
     height: 100vh;
-    /* background-color: #f8f8f8; */
-    flex-shrink: 0;
 }
 
 /* メインコンテンツ */
@@ -165,17 +170,12 @@ pre code {
     width: 250px;
     overflow-y: auto;
     height: 100vh;
-    flex-shrink: 0;
 }
 
 #navi,
 #toc {
     color: black;
     background-color: #f3f1f1;
-}
-
-#toc li:hover {
-    color: rgb(255, 255, 255);
 }
 
 /* ボタンはデフォルト非表示（PC用） */
