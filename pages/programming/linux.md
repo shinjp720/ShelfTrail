@@ -14,7 +14,9 @@ layout: default
 
 <div class="subtitle">基本構文</div>
 
-<span class="code-like">コマンド [オプション] [引数]</span>
+```bash
+コマンド [オプション] [引数]
+```
 
 - 2つ以上のオプションを指定する場合、`ハイフン(-)`の後ろにまとめて書くこともできる。
 
@@ -88,7 +90,7 @@ rsyncはLinuxやUnix系システムで広く使用されるファイル同期、
 
 ---
 
-## ファイル管理 <a id="file-management" data-name="ファイル管理"></a>
+## ファイル・ディレクトリ操作 <a id="file-management" data-name="ファイル管理"></a>
 
 ### ls
 ### cd
@@ -127,7 +129,7 @@ rsyncはLinuxやUnix系システムで広く使用されるファイル同期、
 
 ---
 
-## ファイル閲覧・編集 <a id="viewing-and-editing-filea" data-name="ファイル閲覧・編集"></a>
+## ファイル表示・編集 <a id="viewing-and-editing-filea" data-name="ファイル閲覧・編集"></a>
 
 ### cat
 ### more/less
@@ -137,30 +139,30 @@ rsyncはLinuxやUnix系システムで広く使用されるファイル同期、
 
 ---
 
-## 圧縮・解凍 <a id="comp-and-decomp" data-name="圧縮・解凍"></a>
+## プロセス管理
 
-### tar
-### gzip, gunzip
-### zip, unzip
-### bzip2, bunzip2
-
-
-
+### ps
+### top
+### htop 
+### kill
+### pkill
+### nice
+### renice
+### jobs
+### fg
+### bg
 
 
 ---
 
-## ネットワーク <a id="network" data-name="ネットワーク"></a>
+## 権限・ユーザー管理 <a id="user-management" data-name="権限・ユーザー管理"></a>
 
-### ping
-### ifconfig, ip
-### netstat
-### curl, wget
-### scp, rsync
-### ssh
-### dig, nslookup
-
-
+### sudo
+### su
+### chmod
+### chown
+### passwd
+### useradd, usermod, userdel
 
 
 
@@ -178,19 +180,19 @@ rsyncはLinuxやUnix系システムで広く使用されるファイル同期、
 ### free
 ### uname
 
-
-
-
 ---
 
-## 権限・ユーザー管理 <a id="user-management" data-name="権限・ユーザー管理"></a>
+## ネットワーク <a id="network" data-name="ネットワーク"></a>
 
-### sudo
-### su
-### chmod
-### chown
-### passwd
-### useradd, usermod, userdel
+### ping
+### ifconfig, ip
+### netstat
+### curl, wget
+### scp, rsync
+### ssh
+### dig, nslookup
+
+
 
 
 
@@ -222,13 +224,35 @@ rsyncはLinuxやUnix系システムで広く使用されるファイル同期、
 
 
 
+
+---
+
+## 圧縮・解凍 <a id="comp-and-decomp" data-name="圧縮・解凍"></a>
+
+### tar
+### gzip, gunzip
+### zip, unzip
+### bzip2, bunzip2
+
+
+
+
+
+
+
 ---
 
 ## シェルスクリプト <a id="shell-script" data-name="シェルスクリプト"></a>
 
 ### 実行
 
-スクリプトファイルの冒頭に<br>`#!/bin/bash`<br>と書くとサブプロセスとしてbashを起動して以後のコマンドを実行することができる。これを`shebang(シェバン)`という。
+スクリプトファイルの冒頭に
+
+```bash
+#!/bin/bash
+```
+
+と書くと、サブプロセスとしてbashを起動して以後のコマンドを実行することができる。これを`shebang(シェバン)`という。
 
 ```bash
 chmod +x script.sh # 実行権限を付与
@@ -301,7 +325,7 @@ source script.sh # または . script.sh
 <tr><th>ショートカットキー</th><th>説明</th></tr>
 <tr><td>Ctrl+C</td><td>実行中のプロセスを強制的に終了</td></tr>
 <tr><td>Ctrl+D</td><td>現在のユーザーからログアウト</td></tr>
-<tr><td>Ctrl+Z</td><td>実行中のジョブをバックグラウンドへ</td></tr>
+<tr><td>Ctrl+Z</td><td>実行中のジョブをバックグラウンドへ(fgで戻す)</td></tr>
 </table>
 
 ---

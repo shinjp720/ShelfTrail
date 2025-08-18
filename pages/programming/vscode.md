@@ -5,7 +5,7 @@ layout: default
 
 # VSCode <a id="top" data-name="TOP"></a>
 
-- Microsoftが開発しているWindows、Linux、macOS、Web用のソースコードエディタで、フリーで高機能で人気のエディタ。
+- Microsoftが開発しているWindows、Linux、macOS、Web用のソースコードエディタで、フリーで高機能な人気のエディタ。
 
 ---
 
@@ -20,9 +20,9 @@ layout: default
         <tr><td>Ctrl+C</td><td>行のコピー(未選択時)</td></tr>
         <tr><td>Ctrl+X</td><td>行の切り取り(未選択時)</td></tr>
         <tr><td>Ctrl+V</td><td>貼り付け</td></tr>
+        <tr><td>Ctrl+Backspace</td><td>直前の単語を削除する</td></tr>
         <tr><td>Ctrl+Z</td><td>アンドゥ</td></tr>
         <tr><td>Ctrl+Y または Ctrl+Shift+Z</td><td>リドゥ</td></tr>
-        <tr><td>Ctrl+Backspace</td><td>直前の単語を削除する</td></tr>
         <tr><td>Ctrl+O</td><td>ファイルを開く</td></tr>
 </table>
 
@@ -62,18 +62,18 @@ layout: default
     <caption>タブ</caption>
         <tr><th>ショートカットキー</th><th>意味</th></tr>
         <tr><td>Ctrl+W</td><td>タブを閉じる</td></tr>
-        <tr><td>Ctrl+Alt+←→</td><td>タブを左右に分割・戻す</td></tr>
+        <tr><td>Ctrl+Tab と Ctrl+Shift+Tab</td><td>次のタブ、前のタブへフォーカスを移動</td></tr>
         <tr><td>Alt+1～9</td><td>左から1～9番目のタブへフォーカスを移動</td></tr>
         <tr><td>Alt+0</td><td>最も右のタブへフォーカスを移動</td></tr>
-        <tr><td>Ctrl+1～8</td><td>左から1～8番目のタブグループへフォーカスを移動</td></tr>
+        <tr><td>Ctrl+Alt+←→</td><td>タブを左右に分割・戻す(タブグループへ)</td></tr>
+        <tr><td>Ctrl+1～8</td><td>左から1～8番目のタブグループへフォーカスを移動<br>ない場合新たにタブを追加</td></tr>
         <tr><td>Ctrl+9</td><td>最も右のタブグループへフォーカスを移動</td></tr>
-        <tr><td>Ctrl+0</td><td>サイドバーへフォーカスを移動</td></tr>
-        <tr><td>Ctrl+Tab と Ctrl+Shift+Tab</td><td>次のタブ、前のタブへフォーカスを移動</td></tr>
         <tr><td>Alt+Shift+0</td><td>タブレイアウト(上下もしくは左右)を反転</td></tr>
 </table>
 
 <table>
     <caption>サイドバー関連</caption>
+        <tr><td>Ctrl+0</td><td>サイドバーへフォーカスを移動</td></tr>
         <tr><th>ショートカットキー</th><th>意味</th></tr>
         <tr><td>Ctrl+B</td><td>サイドバーの表示</td></tr>
         <tr><td>Ctrl+Shift+E</td><td>エクスプローラーに移動</td></tr>
@@ -102,7 +102,8 @@ layout: default
 <table>
     <caption>折りたたみ</caption>
         <tr><th>ショートカットキー</th><th>意味</th></tr>
-        <tr><td>Ctrl+K, Ctrl+J</td><td>全て展開</td></tr>
+        <tr><td>Ctrl+K, Ctrl+1</td><td>レベル1で折りたたむ</td></tr>
         <tr><td>Ctrl+K, Ctrl+[</td><td>再帰的に折りたたむ</td></tr>
+        <tr><td>Ctrl+K, Ctrl+J</td><td>全て展開</td></tr>
         <tr><td>Ctrl+K, Ctrl+]</td><td>再帰的に展開</td></tr>
 </table>
