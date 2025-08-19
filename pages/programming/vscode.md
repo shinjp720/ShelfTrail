@@ -62,7 +62,8 @@ layout: default
     <caption>タブ</caption>
         <tr><th>ショートカットキー</th><th>意味</th></tr>
         <tr><td>Ctrl+W</td><td>タブを閉じる</td></tr>
-        <tr><td>Ctrl+Tab と Ctrl+Shift+Tab</td><td>次のタブ、前のタブへフォーカスを移動</td></tr>
+        <tr><td>Ctrl+Tab と Ctrl+Shift+Tab</td><td>1つ前のタブ、次のタブへフォーカスを移動</td></tr>
+        <tr><td>Ctrl+PageUp と Ctrl+PageDown</td><td>右のタブ、左のタブへフォーカスを移動</td></tr>
         <tr><td>Alt+1～9</td><td>左から1～9番目のタブへフォーカスを移動</td></tr>
         <tr><td>Alt+0</td><td>最も右のタブへフォーカスを移動</td></tr>
         <tr><td>Ctrl+Alt+←→</td><td>タブを左右に分割・戻す(タブグループへ)</td></tr>
@@ -84,6 +85,7 @@ layout: default
 <table>
     <caption>エディタ機能</caption>
         <tr><th>ショートカットキー</th><th>意味</th></tr>
+        <tr><td>F1 または Ctrl+Shift+P</td><td>コマンドパレットを開く</td></tr>
         <tr><td>Ctrl+Space</td><td>サジェストを表示</td></tr>
         <tr><td>Shift+Alt+F</td><td>オートフォーマット</td></tr>
         <tr><td>Ctrl+/</td><td>選択行をコメントアウト</td></tr>
@@ -93,7 +95,6 @@ layout: default
         <tr><td>Shift+Alt+↑↓</td><td>行を上下にコピーする</td></tr>
         <tr><td>Ctrl+,</td><td>ユーザー設定を開く</td></tr>
         <tr><td>Ctrl+K, Ctrl+S</td><td>キーボードショートカットを開く</td></tr>
-        <tr><td>F1 または Ctrl+Shift+P</td><td>コマンドパレットを開く</td></tr>
         <tr><td>Ctrl+R</td><td>最近使用したワークスペースを開く</td></tr>
         <tr><td>Ctrl+K, V</td><td>Markdownプレビューを横に表示</td></tr>
         <tr><td>Ctrl+K, Z</td><td>禅モード</td></tr>

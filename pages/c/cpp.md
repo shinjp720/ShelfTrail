@@ -1198,47 +1198,17 @@ public:
 
 ---
 
-
 ## プリプロセッサ <a id="preprocessor" data-name="プリプロセッサ"></a>
 プリプロセッサディレクティブは、コンパイルの前段階でソースコードに対して特定の処理を行う仕組み。<br>
-基本的な構文はC言語と同じで、C++では追加の機能がある。
+プリプロセッサの仕様はCとC++でほぼ同じで、実装された時期に違いがある。
 
-### `##演算子`
-このように記述すると
+|仕様|実装|
+|---|---|
+|#pragma once|Cでは実装依存。C++では一般的な構文|
+|可変引数マクロ|C++11以降|
+|`__func__`|C++11以降|
 
-```cpp
-#define concat(left, right) leftright
-concat(foo, bar) // leftrightに置き換わる
-```
-
-引数の`foo, bar`は無視され`leftright`という識別子に置き換わるので、
-
-```cpp
-#define concat(left, right) left##right
-concat(foo, bar) // foobarに置き換わる
-```
-
-`##`を使うと`foobar`という識別子に置き換わる。<br>
-`##`演算子はマクロ定義の中でのみ有効。
-
----
-
-### `#演算子`
-マクロの引数を文字列に変換することを意図して
-
-```cpp
-#define tostring(value) "value"
-tostring(hoge) // "value"に置き換わる
-```
-
-と書くと`"value"`に置き換わるので、
-
-```cpp
-#define tostring(value) #value
-tostring(hoge) // "hoge"に置き換わる
-```
-
-文字列に置き換わる。
+その他は[C言語]({{ site.baseurl }}/pages/c/c#preprocessor)を参照。
 
 ---
 
