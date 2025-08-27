@@ -119,6 +119,39 @@ int d = {40};
 
 ---
 
+### 型特性
+型特性とは、その型がどういった特徴を持っているのかを調べる機能で、特にテンプレートにおいて、具体的な型に限定はしないものの、型の特徴によって処理を変えたりする場合に使う。
+
+型特性で最も基本的なものは、型がどのような種類のものであるかを調べる述語のクラステンプレート。
+
+<div class="subtitle">主要な述語のテンプレート</div>
+
+|テンプレート|説明|
+|---|---|
+|std::in_integral<T>::value|Tが整数型ならtrue|
+|std::is_floating_point<T>::value|Tが浮動小数点数型ならtrue|
+|std::is_class<T>::value|Tがクラス型ならtrue|
+|std::is_pointer<T>value|Tがポインタ型ならtrue|
+|std::is_lvalue_reference<T>value|Tが左辺値参照型ならtrue|
+|std::is_rvalue_reference<T>value|Tが右辺値参照型ならtrue|
+|std::is_const<T>value|Tがconst付きの型ならtrue|
+|std::is_signed<T>::value|Tが符号を扱える型ならtrue|
+|std::is_unsigned<T>::value|Tが符号なしの数値型ならtrue|
+
+述語のテンプレートは <span class="code-like">static_assert</span> と組み合わせるのが、基本的な使い方で、static_assertは、コンパイル時に条件式がfalseになると強制的にコンパイルエラーとなる構文。
+
+<pre><code class="example">template &lt;typename T&gt;
+class Vector2d {
+    static_assert(std::is_signed&lt;T&gt;::value,
+                  "Tは符号を扱える整数型である必要があります。");
+    T x;
+    T y;
+};</code></pre>
+
+第2引数にはエラーとなった理由などをメッセージとして与えることができるが、省略することもできる(省略自体は <span class="label">C++17</span> で追加)。
+
+---
+
 ## 変数 <a id="valiable" data-name="変数"></a>
 
 ### 左辺値と右辺値
@@ -440,7 +473,6 @@ namespace
 ---
 
 ## クラス <a id="class" data-name="クラス"></a>
-
 
 ### メンバ変数
 
@@ -1135,6 +1167,78 @@ int main() {
 
 ---
 
+## テンプレート <a id="template" data-name="テンプレート"></a>
+総称的プログラミング(generic programming)とは、プログラムの処理を特定のデータ型に限定せずに記述するプログラミングパラダイムのひとつ。
+
+<div class="subtitle">基本構文</div>
+
+```cpp
+template <typename T, typename T2, ...> // 宣言
+戻り値の型 関数名(引数);
+
+template <typename T, typename T2, ...> // 定義
+戻り値の型 関数名(引数) {
+    // 処理
+}
+```
+<div class="subtitle">使用例</div>
+
+```cpp
+template <typename T>
+T multiply_add(T a, T b, T c) { // 戻り値の型にも仮引数似も使える
+    T r = a * b + c; // ローカル変数にも使える
+    return r;
+}
+
+int main() {
+    std::cout << multiply_add<int>(2, 5, 10) << std::endl;
+    std::cout << multiply_add(1.5, 2.1, 5.5) << std::endl; // <float>のように型を指定しない場合は型推論となる。
+}
+```
+
+<div class="subtitle">クラスに使う場合</div>
+
+```cpp
+template <typename T> class A {
+  public:
+    T x;
+    T y;
+    void show() {
+        std::cout << "x: " << x << std::endl << "y: " << y << std::endl;
+    }
+};
+
+int main() {
+    A<int> a{5, 10};
+    a.show();
+}
+```
+
+<div class="subtitle">メンバ関数に使う(宣言と定義を分ける)場合</div>
+
+```cpp
+template <typename T> class A {
+    T x;
+
+  public:
+    A(T x) : x{x} {} // コンストラクタ
+    template <typename U> void foo(U);
+};
+
+template <typename T> // Aのためのtemplate
+template <typename U> // fooのためのtemplate
+void A<T>::foo(U y) {
+    std::cout << "x: " << x << ", y: " << y << std::endl;
+}
+
+int main() {
+    A<int> a{10};
+    a.foo<float>(5.5);
+}
+```
+
+---
+
 ## 継承 <a id="inheritance" data-name="継承"></a>
 あるクラスの異なる部分を追加、変更してクラスを再利用することを継承という。
 継承すると基底クラスのメンバ変数とメンバ関数を全て引き継ぐ。
@@ -1169,6 +1273,27 @@ public:
 
 virtualを付けずにメンバ関数を定義すると名前の隠蔽が発生して、オーバーライドではなく基底クラスの関数を隠す挙動となり、別の関数として扱われる。<br>
 基底クラスのポインタに派生クラスのアドレスを入れて、動的ポリモーフィズムで関数を呼ぶ場合はvirtualが必要となる(virtualが無いと、この場合基底クラスの関数が呼ばれる)。
+
+<span class="label">C++11以降</span> では、<span class="code-like">override</span> 指定子が導入されたので、派生クラスでオーバーライドする際はoverride指定子を付けることが推奨される。
+
+```cpp
+class B : public A
+{
+public:
+    void show() override { std::cout << "class B" << std::endl; }
+};
+```
+
+さらに <span class="code-like">final</span> 指定子を付けることにより、以降の派生クラスでメンバ関数をオーバーライドすることを禁止することができる。
+
+```cpp
+class B : public A
+{
+public:
+    void show() override final { std::cout << "class B" << std::endl; }
+};
+```
+
 
 ---
 
