@@ -103,7 +103,7 @@ layout: default
 <table>
     <caption>折りたたみ</caption>
         <tr><th>ショートカットキー</th><th>意味</th></tr>
-        <tr><td>Ctrl+K, Ctrl+1</td><td>レベル1で折りたたむ</td></tr>
+        <tr><td>Ctrl+K, Ctrl+0</td><td>すべて折りたたむ</td></tr>
         <tr><td>Ctrl+K, Ctrl+[</td><td>再帰的に折りたたむ</td></tr>
         <tr><td>Ctrl+K, Ctrl+J</td><td>全て展開</td></tr>
         <tr><td>Ctrl+K, Ctrl+]</td><td>再帰的に展開</td></tr>

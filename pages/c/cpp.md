@@ -152,6 +152,32 @@ class Vector2d {
 
 ---
 
+## コンテナ <a id="containaer" data-name="コンテナ"></a>
+
+### イテレーター
+イテレーターは反復子とも呼ばれ、コンテナ内の各要素を参照するためのポインタのようなもの。
+
+
+1. 比較演算子(!=)で比較できる`(first != last)`。
+2. 間接参照演算子(*)で要素を参照できる。
+3. インクリメント演算子(++)で次の要素を指す。
+4. 間接参照演算子(*)によって要素を書き換えられる。
+5. デクリメント演算子(--)で1つ手前の要素を指す。
+6. 加算/減算演算子(+/-)によって整数値を足す/引くことで任意の数だけ進んだり戻ったりできる。
+
+1～3の要件を満たすイテレーターは<b>入力イテレーター</b>、
+
+1と3と4を満たすなら<b>出力イテレーター</b>、
+
+1～4を満たすなら<b>順方向イテレーター</b>、
+
+1～5を満たすなら<b>双方向イテレーター</b>、
+
+1～6を満たすなら<b>ランダムアクセスイテレーター</b>と呼ぶ。
+
+
+---
+
 ## 変数 <a id="valiable" data-name="変数"></a>
 
 ### 左辺値と右辺値
@@ -168,6 +194,28 @@ class Vector2d {
 - 一時的な値で、式が終わると消える。
 - 通常はアドレスを取れない。
 - 関数の戻り値やリテラル、計算結果など。
+
+---
+
+### ポインタ
+
+基本的に[C言語]({{ site.baseurl }}/pages/c/c#pointer)と同じ。
+
+---
+
+### 参照
+
+<div class="subtitle">基本構文</div>
+
+```cpp
+int x = 10;
+int& r = x;  // rはxへの参照
+r = 20;      // OK: xの値を変更できる
+```
+
+- 参照は宣言時に初期化する必要がある。
+- 後から参照先を変更することはできない。
+- <span class="code-like">const</span> を付けると参照先の値を書き換えられなくなる。
 
 ---
 
@@ -1415,9 +1463,148 @@ p->~int();                 // 明示的にデストラクタ呼び出し
 
 ---
 
-## 標準入出力<br>`iostream` <a id="iostream" data-name="標準入出力"></a>
+## 標準入出力 <a id="iostream" data-name="標準入出力"></a> <br>`std::iostream`
 
 ### istreamから1行読み込む<br>`std::istream& getline(std::istream& input, std::string& str);`
+
+---
+
+## ファイル操作 <a id="filesystem" data-name="ファイル操作"></a> <br> `std::filesystem`<br> `namespace fs = std::filesystem;`
+
+### パスオブジェクトを生成
+
+<div class="subtitle">生成</div>
+<pre><code>fs::path p1 = "abc/def";
+fs::path p2("dir/file.txt"); // 文字列から生成
+fs::path p3(std::string("dir/file.txt")); // 文字列から生成</code></pre>
+
+<div class="subtitle">代入</div>
+<pre><code>fs::path p; // 空のpath
+
+p = "file.txt"; // operator= 文字列から
+p = std::string("file2.txt");
+p.assign("file3.txt") // 代入と同様</code></pre>
+
+<div class="subtitle">連結</div>
+<pre><code>fs::path p1("dir");
+p1 /= "subdir";   // "dir/subdir"
+p1 /= "file.txt"; // "dir/subdir/file.txt"
+// osの区切り文字を自動で使う
+
+fs::path p2("dir");
+p.append("subdir");  // "dir/subdir"
+p.append("file.txt"); // "dir/subdir/file.txt"
+// /=とほぼ同じ
+
+fs::path p3("file");
+p += ".txt"; // "file.txt"
+// 単純な文字列の連結で、区切り文字は付加されない</code></pre>
+
+<div class="subtitle">置換</div>
+<pre><code>fs::path p("dir/file.txt");
+p.replace_filename("newfile.txt"); // "dir/newfile.txt"
+// ファイル名部分だけを置換</code></pre>
+
+### パスオブジェクトのメソッド
+
+<div class="subtitle">分解</div>
+
+| メソッド | 説明 |
+| --- | --- |
+| p.root_name() | ルート名("C:")など |
+| p.root_directory() | ルートディレクトリ("/") |
+| p.root_path() | ルート名 + ルートディレクトリ |
+| p.relative_path() | ルートを除いた残りの部分 |
+| p.parent_path() | 親ディレクトリ部分 |
+| p.filename() | 最後の要素(ファイル名 or ディレクトリ名) |
+| p.stem() | 拡張子を除いた部分 |
+| p.extension() | 拡張子 |
+
+<pre><code class="example">fs::path p = "/home/user/file.txt";
+std::cout << p.root_path()    << "\n"; // "/"
+std::cout << p.parent_path()  << "\n"; // "/home/user"
+std::cout << p.filename()     << "\n"; // "file.txt"
+std::cout << p.stem()         << "\n"; // "file"
+std::cout << p.extension()    << "\n"; // ".txt"</code></pre>
+
+<div class="subtitle">判定系</div>
+
+| メソッド | 説明 |
+| --- | --- |
+| p.empty() | 空のfs::pathかどうか |
+| has_root_name(), has_root_directory(), has_root_path() | ルートディレクトリ関連 |
+| has_relative_path(), has_parent_path(), has_filename(), has_stem(), has_extension() | パス名関連 |
+
+<pre><code class="example">fs::path p = "file.txt";
+if (p.has_extension()) {
+    std::cout << p.extension() << "\n"; // ".txt"
+}</code></pre>
+
+<div class="subtitle">反復(イテレータ)</div>
+
+<pre><code class="example">fs::path p = "/home/user/file.txt";
+for (auto& part : p) {
+    std::cout << part << "\n";
+}
+// "/", "home", "user", "file.txt"</code></pre>
+
+<div class="subtitle">変換・正規化</div>
+
+| メソッド | 説明 |
+| --- | --- |
+| p.lexically_normal() | pに含まれる"."や".."を解決した正規化パスを返す |
+| target.lexically_relative(base) | baseからtargetまでの相対パスを返す |
+| target.lexically_proximate(base) | baseからtargetまでパスを可能なら相対パス、無理なら絶対パスで返す |
+
+<div class="subtitle">クリア・交換</div>
+
+| メソッド | 説明 |
+| --- | --- |
+| p.clear() | パスを空にする |
+| p.swap(other) | パスを交換する |
+
+---
+
+### 
+
+
+---
+
+### ディレクトリを走査する(単層)<br>`directory_entry fs::directory_iterator("dir");`
+
+<pre><code class="example">for (auto& entry : std::filesystem::directory_iterator("dir")) {
+    std::cout << entry.path() << "\n";
+}</code></pre>
+
+### ディレクトリを走査する(再帰)<br>`directory_entry fs::recursive_directory_iterator("dir");`
+
+<pre><code class="example">for (auto& entry : std::filesystem::recursive_directory_iterator("dir")) {
+    std::cout << entry.path() << "\n";
+}</code></pre>
+
+<pre><code class="caution"><span class="code-like">/mnt/</span> などのwindowsのディレクトリを走査する場合、 <span class="code-like">permission_denied</span> に遭遇するとエラーで落ちるので、
+<pre>for (auto &entry : fs::recursive_directory_iterator("/mnt/h", fs::directory_options::skip_permission_denied))</pre>
+このようにオプションを指定する。</code></pre>
+
+### `directory_entry`のメソッド
+
+
+
+---
+
+### 存在・種類確認系メソッド
+
+| 関数 | 説明 |
+| --- | --- |
+| fs::exists(p) | pが指すファイル・ディレクトリが存在するか |
+| fs::is_regular_file(p) | 通常ファイルかどうか |
+| fs::is_directory(p) | ディレクトリかどうか |
+| fs::is_symlink(p) | シンボリックリンクかどうか |
+| fs::is_block_file(p) | ブロックデバイス(ハードディスクやUSBなど、ブロック単位で読み書きするデバイス)かどうか |
+| fs::is_character_file(p) | キャラクターデバイス(キーボードや端末、シリアルポートのように1文字ずつ扱うデバイス)かどうか |
+| fs::is_fifo(p) | プロセス間通信で使うパイプかどうか |
+| fs::is_socket(p) | UNIXドメインソケット(ローカルプロセス間通信で使われるソケット)かどうか |
+| fs::is_other(p) | 上記のいずれにも当てはまらないファイル(システムが独自に作ったデバイスファイルなど)かどうか |
 
 ---
 
