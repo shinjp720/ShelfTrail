@@ -1532,8 +1532,8 @@ std::cout << p.extension()    << "\n"; // ".txt"</code></pre>
 | メソッド | 説明 |
 | --- | --- |
 | p.empty() | 空のfs::pathかどうか |
-| has_root_name(), has_root_directory(), has_root_path() | ルートディレクトリ関連 |
-| has_relative_path(), has_parent_path(), has_filename(), has_stem(), has_extension() | パス名関連 |
+| p.has_root_name(), p.has_root_directory(), p.has_root_path() | ルートディレクトリ関連 |
+| p.has_relative_path(), p.has_parent_path(), p.has_filename(), p.has_stem(), p.has_extension() | パス名関連 |
 
 <pre><code class="example">fs::path p = "file.txt";
 if (p.has_extension()) {
@@ -1565,11 +1565,6 @@ for (auto& part : p) {
 
 ---
 
-### 
-
-
----
-
 ### ディレクトリを走査する(単層)<br>`directory_entry fs::directory_iterator("dir");`
 
 <pre><code class="example">for (auto& entry : std::filesystem::directory_iterator("dir")) {
@@ -1583,7 +1578,7 @@ for (auto& part : p) {
 }</code></pre>
 
 <pre><code class="caution"><span class="code-like">/mnt/</span> などのwindowsのディレクトリを走査する場合、 <span class="code-like">permission_denied</span> に遭遇するとエラーで落ちるので、
-<pre>for (auto &entry : fs::recursive_directory_iterator("/mnt/h", fs::directory_options::skip_permission_denied))</pre>
+for (auto &entry : fs::recursive_directory_iterator("/mnt/h", fs::directory_options::skip_permission_denied))
 このようにオプションを指定する。</code></pre>
 
 ### `directory_entry`のメソッド
