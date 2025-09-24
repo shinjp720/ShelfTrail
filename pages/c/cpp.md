@@ -7,7 +7,7 @@ layout: default
 
 <div data-title="C++"></div>
 
-# C++ <a id="top" data-name="TOP"></a>
+## C++ <a id="top" data-name="TOP"></a>
 
 - C++は、C言語を基盤にオブジェクト指向プログラミングの概念を取り入れた プログラミング言語。
 
@@ -1463,13 +1463,46 @@ p->~int();                 // 明示的にデストラクタ呼び出し
 
 ---
 
-## 標準入出力 <a id="iostream" data-name="標準入出力"></a> <br>`std::iostream`
+## 標準入出力 `<iostream>` <a id="iostream" data-name="標準入出力"></a> <br>`std::iostream`
 
 ### istreamから1行読み込む<br>`std::istream& getline(std::istream& input, std::string& str);`
 
+## ファイル入出力 `<fstream>` <a id="fstream>" data-name="ファイル入出力"></a> <br>`std::fstream, std::ifstream, std::ofstream`
+
+ファイルをオープンするときは、基本は用途に応じてコンストラクタを使い分ける。
+
+| 用途 | 使い方 |
+| --- | --- |
+| 読み込みだけ | std::ifstream in{"filename"} |
+| 書き込みだけ | std::ofstream out{"filename", mode} |
+| 読み書き両方 | std::fstream io{"filename", mode} |
+
+変数を作っておいて後からファイル名が決まる場合や、close()で閉じてから、別のファイルを開く場合にはopen()を使う。
+
+<pre><code class="example">std::ifstream in;
+in.open("file1.txt");
+in.close();
+in.open("file2.txt");  // 別ファイルを再利用して開く</code></pre>
+
+第2引数でmodeを指定すると挙動を指定できる。
+
+| 定数 | 説明 |
+| --- | --- |
+| std::ios::in | 入力用に開く |
+| std::ios::out | 出力用に開く |
+| std::ios::binary | バイナリモードで読み書きする |
+| std::ios::app | 追記モードで開く(出力が常にストリーム終端に対して行われる) |
+| std::ios::ate | ファイルを開いたら、ただちにファイル終端へ移動する |
+| std::ios::trunc | ファイルを開いたら、必ず既存の内容を消去する |
+
+<pre><code class="example">std::fstream io("data.txt", std::ios::in | std::ios::out); // 読み書き</code></pre>
+
+<pre><code class="example">std::ofstream log;
+log.open("log.txt", std::ios::out | std::ios::app); // 追記モード</code></pre>
+
 ---
 
-## ファイル操作 <a id="filesystem" data-name="ファイル操作"></a> <br> `std::filesystem`<br> `namespace fs = std::filesystem;`
+## ファイル操作  `<filesystem>` <a id="filesystem" data-name="ファイル操作"></a> <br> `std::filesystem`<br> `namespace fs = std::filesystem;`
 
 ### パスオブジェクトを生成
 
@@ -1583,7 +1616,26 @@ for (auto &entry : fs::recursive_directory_iterator("/mnt/h", fs::directory_opti
 
 ### `directory_entry`のメソッド
 
-
+| メソッド | 説明 |
+| --- | --- |
+| e.path() | directory_entryが指すパスを返す |
+| e.exists() | エントリが存在するか |
+| e.file_size() | サイズを返す(regular_fileのみ) |
+| e.last_write_time() | 最終更新時刻 |
+| e.hard_link_count() | ハードリンクの数 |
+| e.status() | file_status(実態の種類や権限) |
+| e.symlink_status() | file_status(リンク自体の種類や権限) |
+| e.assign(const path&) | パスを書き換える |
+| e.replace_filename(const path&) | ファイル名部分を書き換える |
+| e.refresh() | ファイルシステムを再度問い合わせて情報を更新 |
+| e.is_regular_file() | 通常ファイルかどうか |
+| e.is_directory() | ディレクトリかどうか |
+| e.is_symlink() | シンボリックリンクかどうか |
+| e.is_block_file() | ブロックデバイス(ハードディスクやUSBなど、ブロック単位で読み書きするデバイス)かどうか |
+| e.is_character_file() | キャラクターデバイス(キーボードや端末、シリアルポートのように1文字ずつ扱うデバイス)かどうか |
+| e.is_fifo() | プロセス間通信で使うパイプかどうか |
+| e.is_socket() | UNIXドメインソケット(ローカルプロセス間通信で使われるソケット)かどうか |
+| e.is_other() | 上記のいずれにも当てはまらないファイル(システムが独自に作ったデバイスファイルなど)かどうか |
 
 ---
 
@@ -1602,6 +1654,13 @@ for (auto &entry : fs::recursive_directory_iterator("/mnt/h", fs::directory_opti
 | fs::is_other(p) | 上記のいずれにも当てはまらないファイル(システムが独自に作ったデバイスファイルなど)かどうか |
 
 ---
+
+## 文字列 <a id="string" data-name="文字列"></a> <br> `std::string`
+
+
+
+
+
 
 ## リンケージ <a id="linkage" data-name="リンケージ"></a>
 リンケージとは、識別子(変数または関数)が他のスコープから参照できるかどうかを表す。<br>
