@@ -1657,9 +1657,115 @@ for (auto &entry : fs::recursive_directory_iterator("/mnt/h", fs::directory_opti
 
 ## 文字列 <a id="string" data-name="文字列"></a> <br> `std::string`
 
+### 生成と結合
 
+```cpp
+std::string s1;                // 空文字列
+std::string s2 = "Hello";      // 文字列リテラルから
+std::string s3(5, 'x');        // "xxxxx"
+s1 = "World";                  // 代入
 
+std::string s1 = "Hello";
+std::string s2 = "World";
+std::string s3 = s1 + " " + s2;  // "Hello World"
+s1 += "!";                       // "Hello!"
+```
 
+### アクセス
+
+```cpp
+std::string s = "Hello";
+char c1 = s[0];      // 'H'
+char c2 = s.at(1);   // 'e'（範囲外なら例外）
+s[0] = 'h';          // 先頭を小文字に
+```
+
+### 比較
+
+```cpp
+std::string a = "apple";
+std::string b = "banana";
+
+if (a == b) { }   // 等しいかどうか
+if (a < b)  { }   // 辞書順比較
+```
+
+### イテレーション
+```cpp
+std::string s = "Hello";
+for (char c : s) {
+    std::cout << c << " ";   // H e l l o
+}
+```
+
+### メソッド
+
+<table>
+    <caption>サイズ関連</caption>
+    <tr><th>メソッド</th><th>説明</th></tr>
+    <tr><td>s.size()</td><td>サイズを返す(length()と挙動は同じだが、他のクラスと統一するならこっち)</td></tr>
+    <tr><td>s.length()</td><td>サイズを返す</td></tr>
+    <tr><td>s.empty()</td><td>文字列が空ならtrue</td></tr>
+</table>
+
+<table>
+    <caption>検索</caption>
+    <tr><th>メソッド</th><th>説明</th></tr>
+    <tr><td>s.find("keyword")</td><td>キーワードが見つかれば整数で位置を返す<br>見つからなければstd::string::npoを返す</td></tr>
+    <tr><td>s.rfind("keyword")</td><td>後ろから検索して、後ろからの位置を返す<br>見つからなければstd::string::npoを返す</td></tr>
+</table>
+
+<pre><code class="example">// 検索が見つかった場合の判定
+if (s.find("keyword") != std::string::npos) {
+    std::cout << "見つかった" << std::endl;
+}</code></pre>
+
+<table>
+    <caption>置換</caption>
+    <tr><th>メソッド</th><th>説明</th></tr>
+    <tr><td>s.replace(i, n, "word")</td><td>sのi番目の位置からn文字をwordに書き換える</td></tr>
+</table>
+
+<table>
+    <caption>挿入・削除</caption>
+    <tr><th>メソッド</th><th>説明</th></tr>
+    <tr><td>s.insert(i, "word")</td><td>sのi番目の位置にwordを挿入</td></tr>
+    <tr><td>s.erase(i, n)</td><td>sのi番目からn文字削除する</td></tr>
+    <tr><td>s.clear()</td><td>sを空文字列にする</td></tr>
+</table>
+
+<table>
+    <caption>変換</caption>
+    <tr><th>メソッド</th><th>説明</th></tr>
+    <tr><td>std::stoi(s)</td><td>整数文字列をint型に変換して返す</td></tr>
+    <tr><td>std::stod("3.14")</td><td>小数文字列をdouble型に変換して返す</td></tr>
+    <tr><td>std::to_string(num)</td><td>numを文字列に変換して返す</td></tr>
+</table>
+
+<table>
+    <caption>その他</caption>
+    <tr><th>メソッド</th><th>説明</th></tr>
+    <tr><td>s.substr(i, n)</td><td>sのi番目からn文字取り出して返す</td></tr>
+    <tr><td>s.compare("target")</td><td>sとtargetを辞書順で比較して、等しければ0、小さければ負数、大きければ正の整数を返す</td></tr>
+</table>
+
+### 小文字・大文字化
+`<cctype>`に`std::toupper`と`std::tolower`がある。<br>
+負の値となる可能性があるcharを渡すと未定義動作となるので、`static_cast<unsigned char>`に変換して渡すのが安全。
+
+```cpp
+#include <iostream>
+#include <cctype>
+#include <string>
+
+std::string to_upper(const std::string& s) {
+    std::string result = s;
+    for (char& c : result) {
+        c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    }
+    return result;
+}
+```
 
 
 ## リンケージ <a id="linkage" data-name="リンケージ"></a>
