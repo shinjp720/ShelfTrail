@@ -1747,6 +1747,7 @@ if (s.find("keyword") != std::string::npos) {
     <tr><th>メソッド</th><th>説明</th></tr>
     <tr><td>s.substr(i, n)</td><td>sのi番目からn文字取り出して返す</td></tr>
     <tr><td>s.compare("target")</td><td>sとtargetを辞書順で比較して、等しければ0、小さければ負数、大きければ正の整数を返す</td></tr>
+    <tr><td>s.c_str()</td><td>sをC互換文字列へ変換</td></tr>
 </table>
 
 ### 小文字・大文字化
