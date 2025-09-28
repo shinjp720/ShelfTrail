@@ -355,27 +355,27 @@ int main()
 []の中にラムダ式を定義した時点のスコープにある変数をキャプチャして使うことができる。
 
 <div class="subtitle">コピーキャプチャ</div>
-<span class="code-like">auto func = [a]() {}</span><br>
+<span class="code-like">```auto func = [a]() {}```</span><br>
 指定した変数のみをコピーキャプチャ。<br>
 コピーキャプチャはデフォルトで <span class="code-like">const</span> となり、キャプチャされた変数の書き換えはできない。<br>
 キャプチャされた変数の値を書き換えたい場合は <span class="code-like">mutable</span> を指定する。<br>
-<span class="code-like">[=]() mutable { 関数の処理内容 };</span><br>
+<span class="code-like">```[=]() mutable { 関数の処理内容 };```</span><br>
 キャプチャした時点の変数の値をコピーするので、元の変数の値が書き換えられてもキャプチャした変数の値は変わらない。<br>
 あくまでコピーキャプチャは値のコピーなので値を書き換えても元の変数の値は変わらない。
 
 <div class="subtitle">参照キャプチャ</div>
-<span class="code-like">auto func = [&a]() {}</span><br>
+<span class="code-like">```auto func = [&a]() {}```</span><br>
 指定した変数のみを参照キャプチャ。<br>
 参照でキャプチャした場合は、デフォルトで値の書き換えが可能で、書き換えると元の変数の値も書き換えられる。<br>
 元の変数が <span class="code-like">const</span> の場合は書き換えができない。
 
 <div class="subtitle">デフォルトコピーキャプチャ</div>
-<span class="code-like">auto func = [=]() {}</span><br>
+<span class="code-like">```auto func = [=]() {}```</span><br>
 ラムダ式を定義した時点のスコープの全ての変数をコピーキャプチャする。<br>
 ラムダ式内で使っている変数をコンパイラが自動でキャプチャしてくれるのでパフォーマンスには影響しない。
 
 <div class="subtitle">デフォルト参照キャプチャ</div>
-<span class="code-like">auto func = [&]() {}</span><br>
+<span class="code-like">```auto func = [&]() {}```</span><br>
 ラムダ式を定義した時点のスコープの全ての変数を参照キャプチャする。
 
 <div class="subtitle">組み合わせ</div>
