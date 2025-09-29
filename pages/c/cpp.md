@@ -1655,7 +1655,7 @@ for (auto &entry : fs::recursive_directory_iterator("/mnt/h", fs::directory_opti
 
 ---
 
-## 文字列 <a id="string" data-name="文字列"></a> <br> `std::string`
+## 文字列 `<string>` <a id="string" data-name="文字列"></a> <br> `std::string`
 
 ### 生成と結合
 
@@ -1713,6 +1713,8 @@ for (char c : s) {
     <tr><th>メソッド</th><th>説明</th></tr>
     <tr><td>s.find("keyword")</td><td>キーワードが見つかれば整数で位置を返す<br>見つからなければstd::string::npoを返す</td></tr>
     <tr><td>s.rfind("keyword")</td><td>後ろから検索して、後ろからの位置を返す<br>見つからなければstd::string::npoを返す</td></tr>
+    <tr><td>s.starts_with("keyword")</td><td>sの先頭がkeywordと一致したらtrueを返す</td></tr>
+    <tr><td>s.ends_with("keyword")</td><td>sの末尾がkeywordと一致したらtrueを返す</td></tr>
 </table>
 
 <pre><code class="example">// 検索が見つかった場合の判定
@@ -1768,6 +1770,81 @@ std::string to_upper(const std::string& s) {
 }
 ```
 
+## 正規表現 `<regex>` <a id="regex" data-name="正規表現"></a> <br> `std::regex`
+
+### 文字列全体が正規表現にマッチするか調べる<br>std::regex_match();
+文字列全体が正規表現にマッチするかを調べるには、`std::regex_match()`を使う。
+
+```cpp
+std::string s = "2021/04/01";
+
+// 日付にマッチする正規表現
+std::regex re {"(\\d{4})/(\\d{2})/(\\d{2})"};
+std::smatch result; // 第2引数に渡すsmatch
+
+if (regex_match(s, result, re)) {
+    std::cout << result[0] << std::endl; // マッチ全体
+    std::cout << result[1] << std::endl; // 年グループ
+    std::cout << result[2] << std::endl; // 月グループ
+    std::cout << result[3] << std::endl; // 日グループ
+}
+```
+
+文字列全体がマッチしたらtrueを返し、部分的にマッチした場合や、マッチしなければfalseが返る。<br>
+第2引数にはstd::smatchクラスのオブジェクトへの参照を渡す。マッチするとマッチ情報がこのオブジェクトにコンテナのような形で格納される。<br>
+
+### 文字列が正規表現に部分的にマッチするか調べる<br>std::regex_search();
+文字列sが正規表現に部分的にマッチするか調べるにには、`std::regex_search()`を使う。
+
+```cpp
+std::string s = "今日の日付は2021/04/01です。";
+
+// 日付にマッチする正規表現
+std::regex re {"(\\d{4})/(\\d{2})/(\\d{2})"};
+std::smatch result; // 第2引数に渡すsmatch
+
+if (regex_search(s, result, re)) {
+    std::cout << result[0] << std::endl; // マッチ全体
+    std::cout << result[1] << std::endl; // 年グループ
+    std::cout << result[2] << std::endl; // 月グループ
+    std::cout << result[3] << std::endl; // 日グループ
+}
+```
+
+文字列sが正規表現に部分的にマッチすればtrue、マッチしなければfalseが返る。
+
+### 正規表現で置換する<br>std::regex_replace();
+
+
+
+```cpp
+std::string s "今日の日付は2021/04/01です";
+
+// 日付にマッチする正規表現
+std::regex re {"(\\d{4})/(\\d{2})/(\\d{2})"};
+
+// YYYY/MM/DD形式をYYYY年MM月DD日に置き換える
+std::string format = "$1年$2月$3日";
+
+s = std::regex_replace(s, re, format);
+```
+
+戻り値として変換後の新たな文字列オブジェクトが返る。<br>
+置換フォーマットの"$1", "$2", "$3"はそれぞれN番目にマッチした部分文字列のプレースホルダであることを意味する。<br>
+マッチした文字列全体を表すには"$&"というプレースホルダを使う。
+
+## 書式指定 `<format>` <a id="format" data-name="フォーマット"></a><br>std::format <span class="label">C++20</span>
+
+`std::format()`は、値を書式指定で文字列化する関数で、第1引数に書式文字列、第2引数に文字列化したい値を渡す。
+
+```cpp
+std::string format(string_view fmt, const Args&... args);
+```
+
+<pre><code class="example">std::cout << std::format("Hello {0} World!", "C++") << std::endl; // Hello C++ World!
+std::cout << std::format("答えは{}", 42) << std::endl; // 答えは42</code></pre>
+
+書式指定文字列は、`{}`で囲まれた置換フィールドを第2引数に置き換える。<br>
 
 ## リンケージ <a id="linkage" data-name="リンケージ"></a>
 リンケージとは、識別子(変数または関数)が他のスコープから参照できるかどうかを表す。<br>
