@@ -3,7 +3,7 @@ title: C++
 layout: default
 ---
 
-# C++ <a id="top" data-name="TOP"></a>
+    # C++ <a id="top" data-name="TOP"></a>
 
 - C++は、C言語を基盤にオブジェクト指向プログラミングの概念を取り入れた プログラミング言語。
 
@@ -103,18 +103,6 @@ void foo(integer a){} // オーバーロードはできない
 
 ---
 
-### 変数の初期化
-変数の初期化には4通りの構文がある。
-
-```cpp
-int a = 10;
-int b(20);
-int c{30};
-int d = {40};
-```
-
----
-
 ### 型特性
 型特性とは、その型がどういった特徴を持っているのかを調べる機能で、特にテンプレートにおいて、具体的な型に限定はしないものの、型の特徴によって処理を変えたりする場合に使う。
 
@@ -208,6 +196,46 @@ class Vector2d {
 
 
 ## 変数 <a id="valiable" data-name="変数"></a>
+
+### 変数の初期化
+変数の初期化には4通りの構文がある。
+
+```cpp
+int a = 10;
+int b(20);
+int c{30};
+int d = {40};
+```
+
+---
+
+### constとconstexpr
+
+```cpp
+const int i = 10; // 値の変更ができなくなる
+const int j = func(); // 実行時に値が確定してもいい
+```
+
+このように`const`を付けて変数を宣言すると以降、値の再代入ができなくなる。
+
+```cpp
+constexpr int max_size = 100; // コンパイル時に値が確定するのでok
+```
+
+変数宣言に`constexpr`を付けると、コンパイラにこの変数はコンパイル時に値が確定してるはずだ、
+ということを明示して宣言することにより、コンパイル時に値の計算がされ実行時のオーバーヘッドを削減できる。<br>
+コンパイル時に値が確定していない場合はコンパイルエラーとなる。
+
+```cpp
+constexpr int square(int x) {
+    return x * x;
+}
+```
+
+一方`constexpr`関数(コンストラクタも同様)の場合は引数がコンパイル時定数であればコンパイル時に評価され、引数が実行時に決まる値の場合は通常の関数として実行時に評価される。<br>
+ただし`constexpr`関数はコンパイル時に実行できることが前提なので、副作用を伴う処理や動的確保や実行時にしか決まらない値を使う場合には使えず、コンパイルエラーとなる。またコンストラクタに使用する場合、メンバが`vector`のように動的にメモリ確保する型は`constexpr`のオブジェクトとして構築できない。
+
+---
 
 ### 左辺値と右辺値
 変数・引数・数値といった値は、大別して左辺値と右辺値という2つに分類される。
@@ -1886,7 +1914,7 @@ std::cout << std::format("答えは{}", 42) << std::endl; // 答えは42</code><
 ## ユーティリティ <a id="utility" data-name="ユーティリティ"></a> <br> `<utility>`
 
 ### ペア <br> `<utility>`
-異なる2つの型を持つペアを表現する。宣言時に型が決まり、後から変えることはできない。
+異なる2つの型を持つpair。宣言時に型が決まり、後から変えることはできない。
 
 ```cpp
 std::pair<int, std::string> p{1, "hello"}; // 初期化
@@ -1900,7 +1928,7 @@ std::cout << std::get<int> << std::endl; // int型の要素
 ```
 
 ### タプル <br> `<tuple>`
-異なるN個の型の値を持つタプルを表現する。宣言時に型が決まり、後から変えることはできない。
+異なるN個の型の値を持つtuple。宣言時に型が決まり、後から変えることはできない。
 
 ```cpp
 std::tuple<int, double, std::string, int> t = {11, 3.14, "hello", 22}; // 初期化
@@ -1911,6 +1939,77 @@ std::cout << std::get<1>(t) << std::endl; // 2つ目の要素
 std::cout << std::get<double>(t) << std::endl; // double型の要素
 // std::cout << std::get<int>(t) << std::endl; // int型が2つあるためエラー
 ```
+
+### バリアント <span class="label">C++17</span> <br> `<variant>`
+variantは、C++17で導入された型安全な共有体(union)で、宣言された、継承関係にない複数の型のうち1つだけ値を代入できる。
+
+```cpp
+// int, double, stringのいずれかを代入できる。
+std::variant<int, double, std::string> v = 3;
+// 初期化しない場合は最初の型のデフォルト値(intの0)となる。
+std::variant<int , double> v2{};
+
+int n = std::get<int>(v); // intの値を取り出す
+
+v = "hello"; // 文字列を代入する
+std::string s = std::get<string>(v) // 文字列を取り出す
+
+// indexは格納されている値のindexを返す。
+if (v.index() == 2) {
+    std::cout << "stringを保持" << std::endl;
+}
+
+// get_ifはポインタを返す。指定した型でなければnullptrが返る
+if (std::string *p  get_if<std::string>(&v)) {
+    std::cout << "string: " << *p << std::endl;
+}
+
+// 特定の型を保持しているか確認
+if (std::holds_alternative<std::string>(v)) {
+    std::cout << "stringを保持" << std::endl;
+}
+```
+
+`std::get<型>()`は、指定した型の値が代入されていなかった場合、`std::bad_variant_access`例外を送出する。<br>
+また`std::get<定数>()`は定数値によってindexを指定することもできる。
+
+```cpp
+// visitによる型安全なパターンマッチング
+std::variant<int, double, std::string> v = "Hello";
+
+std::visit([](auto&& arg) {
+    using T = std::decay_t<decltype(arg)>;
+    if constexpr (std::is_same_v<T, int>) {
+        std::cout << "int: " << arg << std::endl;
+    } else if constexpr (std::is_same_v<T, double>) {
+        std::cout << "double: " << arg << std::endl;
+    } else if constexpr (std::is_same_v<T, std::string>) {
+        std::cout << "string: " << arg << std::endl;
+    }
+}, v);
+```
+
+```cpp
+// どの型が来ても対応
+int main() {
+    std::variant<int, double, std::string> v = 3.14;
+    
+    std::visit([](auto&& arg) {
+        std::cout << "値: " << arg << std::endl;
+    }, v);
+}
+```
+
+
+
+```cpp
+std::visit(visitor, variant);
+```
+
+visitorに呼び出し可能オブジェクト、variantに`std::variant`のインスタンスを渡す。
+
+
+
 
 ## ランダム <a id="random" data-name="ランダム"></a> <br> `<random>`
 C++のランダム生成は、大別して生成・範囲・分布の3つの部品で構成されており、それらを組み合わせることにより柔軟に選択できる。
