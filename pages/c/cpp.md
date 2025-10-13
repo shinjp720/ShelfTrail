@@ -3,11 +3,7 @@ title: C++
 layout: default
 ---
 
-<div data-title="Linux"></div>
-
-<div data-title="C++"></div>
-
-## C++ <a id="top" data-name="TOP"></a>
+# C++ <a id="top" data-name="TOP"></a>
 
 - C++は、C言語を基盤にオブジェクト指向プログラミングの概念を取り入れた プログラミング言語。
 
@@ -175,8 +171,41 @@ class Vector2d {
 
 1～6を満たすなら<b>ランダムアクセスイテレーター</b>と呼ぶ。
 
-
 ---
+
+### 固定長配列 <br> `<array>`
+
+### 可変長配列 <br> `<vector>`
+
+### 単方向連結リスト <br> `<forward_list>`
+
+### 双方向連結リスト <br> `<list>`
+
+### 両端キュー <br> `<deque>`
+
+### キュー <br> `<queue>`
+
+### 優先順位付きキュー <br> `<priority_queue>`
+
+### スタック <br> `<stack>`
+
+### 順序付き集合(重複不可) <br> `<set>`
+
+### 順序付き集合(重複可能) <br> `<multiset>`
+
+### 順序なし集合(重複不可) <br> `<unordered_set>`
+
+### 順序なし集合(重複可能) <br> `<unordered_multiset>`
+
+### 順序付き連想配列(キーの重複不可) <br> `<map>`
+
+### 順序付き連想配列(キーの重複可能) <br> `<multimap>`
+
+### 順序なし連想配列(キーの重複不可) <br> `<unordered_map>`
+
+### 順序なし連想配列(キーの重複可能) <br> `<unordered_multimap>`
+
+
 
 ## 変数 <a id="valiable" data-name="変数"></a>
 
@@ -1371,6 +1400,12 @@ public:
 
 ---
 
+## 例外処理
+
+
+
+
+
 ## プリプロセッサ <a id="preprocessor" data-name="プリプロセッサ"></a>
 プリプロセッサディレクティブは、コンパイルの前段階でソースコードに対して特定の処理を行う仕組み。<br>
 プリプロセッサの仕様はCとC++でほぼ同じで、実装された時期に違いがある。
@@ -1463,11 +1498,11 @@ p->~int();                 // 明示的にデストラクタ呼び出し
 
 ---
 
-## 標準入出力 `<iostream>` <a id="iostream" data-name="標準入出力"></a> <br>`std::iostream`
+## 標準入出力 <a id="iostream" data-name="標準入出力"></a> <br> `<iostream>`
 
 ### istreamから1行読み込む<br>`std::istream& getline(std::istream& input, std::string& str);`
 
-## ファイル入出力 `<fstream>` <a id="fstream>" data-name="ファイル入出力"></a> <br>`std::fstream, std::ifstream, std::ofstream`
+## ファイル入出力 <a id="fstream>" data-name="ファイル入出力"></a> <br> `<fstream>`
 
 ファイルをオープンするときは、基本は用途に応じてコンストラクタを使い分ける。
 
@@ -1502,7 +1537,7 @@ log.open("log.txt", std::ios::out | std::ios::app); // 追記モード</code></p
 
 ---
 
-## ファイル操作  `<filesystem>` <a id="filesystem" data-name="ファイル操作"></a> <br> `std::filesystem`<br> `namespace fs = std::filesystem;`
+## ファイル操作 <a id="filesystem" data-name="ファイル操作"></a> <br> `<filesystem>` <br> `namespace fs = std::filesystem;`
 
 ### パスオブジェクトを生成
 
@@ -1573,7 +1608,7 @@ if (p.has_extension()) {
     std::cout << p.extension() << "\n"; // ".txt"
 }</code></pre>
 
-<div class="subtitle">反復(イテレータ)</div>
+<div class="subtitle">イテレーション</div>
 
 <pre><code class="example">fs::path p = "/home/user/file.txt";
 for (auto& part : p) {
@@ -1655,7 +1690,7 @@ for (auto &entry : fs::recursive_directory_iterator("/mnt/h", fs::directory_opti
 
 ---
 
-## 文字列 `<string>` <a id="string" data-name="文字列"></a> <br> `std::string`
+## 文字列 <a id="string" data-name="文字列"></a> <br> `<string>`
 
 ### 生成と結合
 
@@ -1742,6 +1777,8 @@ if (s.find("keyword") != std::string::npos) {
     <tr><td>std::stoi(s)</td><td>整数文字列をint型に変換して返す</td></tr>
     <tr><td>std::stod("3.14")</td><td>小数文字列をdouble型に変換して返す</td></tr>
     <tr><td>std::to_string(num)</td><td>numを文字列に変換して返す</td></tr>
+    <tr><td>std::to_string(num)</td><td>numを文字列に変換して返す</td></tr>
+    <tr><td>s.c_str()</td><td>sをC互換文字列へ変換</td></tr>
 </table>
 
 <table>
@@ -1749,7 +1786,6 @@ if (s.find("keyword") != std::string::npos) {
     <tr><th>メソッド</th><th>説明</th></tr>
     <tr><td>s.substr(i, n)</td><td>sのi番目からn文字取り出して返す</td></tr>
     <tr><td>s.compare("target")</td><td>sとtargetを辞書順で比較して、等しければ0、小さければ負数、大きければ正の整数を返す</td></tr>
-    <tr><td>s.c_str()</td><td>sをC互換文字列へ変換</td></tr>
 </table>
 
 ### 小文字・大文字化
@@ -1770,7 +1806,7 @@ std::string to_upper(const std::string& s) {
 }
 ```
 
-## 正規表現 `<regex>` <a id="regex" data-name="正規表現"></a> <br> `std::regex`
+## 正規表現 <a id="regex" data-name="正規表現"></a> <br> `<regex>`
 
 ### 文字列全体が正規表現にマッチするか調べる<br>std::regex_match();
 文字列全体が正規表現にマッチするかを調べるには、`std::regex_match()`を使う。
@@ -1833,7 +1869,7 @@ s = std::regex_replace(s, re, format);
 置換フォーマットの"$1", "$2", "$3"はそれぞれN番目にマッチした部分文字列のプレースホルダであることを意味する。<br>
 マッチした文字列全体を表すには"$&"というプレースホルダを使う。
 
-## 書式指定 `<format>` <a id="format" data-name="フォーマット"></a><br>std::format <span class="label">C++20</span>
+## フォーマット <a id="format" data-name="フォーマット"></a> <br> `<format>` <span class="label">C++20</span>
 
 `std::format()`は、値を書式指定で文字列化する関数で、第1引数に書式文字列、第2引数に文字列化したい値を渡す。
 
@@ -1845,6 +1881,50 @@ std::string format(string_view fmt, const Args&... args);
 std::cout << std::format("答えは{}", 42) << std::endl; // 答えは42</code></pre>
 
 書式指定文字列は、`{}`で囲まれた置換フィールドを第2引数に置き換える。<br>
+
+
+## ユーティリティ <a id="utility" data-name="ユーティリティ"></a> <br> `<utility>`
+
+### ペア <br> `<utility>`
+異なる2つの型を持つペアを表現する。宣言時に型が決まり、後から変えることはできない。
+
+```cpp
+std::pair<int, std::string> p{1, "hello"}; // 初期化
+
+p = std::make_pair(2, "world"); // まとめて値を指定
+
+std::cout << p.first << std::endl; // 1つ目の要素
+std::cout << p.second << std::endl; // 2つ目の要素
+std::cout << std::get<0> << std::endl; // 1つ目の要素
+std::cout << std::get<int> << std::endl; // int型の要素
+```
+
+### タプル <br> `<tuple>`
+異なるN個の型の値を持つタプルを表現する。宣言時に型が決まり、後から変えることはできない。
+
+```cpp
+std::tuple<int, double, std::string, int> t = {11, 3.14, "hello", 22}; // 初期化
+
+t = std::make_tuple(3, 1.5, "wold", 11) // まとめて値を指定
+
+std::cout << std::get<1>(t) << std::endl; // 2つ目の要素
+std::cout << std::get<double>(t) << std::endl; // double型の要素
+// std::cout << std::get<int>(t) << std::endl; // int型が2つあるためエラー
+```
+
+## ランダム <a id="random" data-name="ランダム"></a> <br> `<random>`
+C++のランダム生成は、大別して生成・範囲・分布の3つの部品で構成されており、それらを組み合わせることにより柔軟に選択できる。
+
+1. 乱数の元を作る `std::random_device` (seed生成用)
+2. 乱数の生成方法を指定する `std::mt19937`, `std::default_random_engine` など
+3. 乱数の値の範囲、分布の形を決める `std::uniform_int_distribution`, `std::normal_distribution` など
+
+```cpp
+std::random_device rd;                       // ランダムな種(シード)を生成
+std::mt19937 gen(rd());                      // 乱数生成器(MersenneTwister方式)
+std::uniform_int_distribution<> dist(0, 9);  // 分布の定義：0〜9の整数を一様に
+int value = dist(gen);                       // 乱数の生成
+```
 
 ## リンケージ <a id="linkage" data-name="リンケージ"></a>
 リンケージとは、識別子(変数または関数)が他のスコープから参照できるかどうかを表す。<br>
