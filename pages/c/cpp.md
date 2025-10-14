@@ -3,7 +3,7 @@ title: C++
 layout: default
 ---
 
-    # C++ <a id="top" data-name="TOP"></a>
+# C++ <a id="top" data-name="TOP"></a>
 
 - C++は、C言語を基盤にオブジェクト指向プログラミングの概念を取り入れた プログラミング言語。
 
@@ -138,9 +138,21 @@ class Vector2d {
 
 ## コンテナ <a id="containaer" data-name="コンテナ"></a>
 
-### イテレーター
-イテレーターは反復子とも呼ばれ、コンテナ内の各要素を参照するためのポインタのようなもの。
+### 各コンテナの特徴
 
+| コンテナ | 特徴 |
+|---|---|
+| array<br>vector | 配列を表すコンテナで、arrayは固定長、vectorは可変長。要素は連続したメモリ領域に格納される。vectorに要素を追加する際に、メモリの再確保と要素の再配置が起こりうる。 |
+| list<br>forward_list | 連結リストを表すコンテナで、froward_listは先頭方向から末尾方向へのみ要素を辿れる単方向リストで、listは先頭方向から末尾方向、末尾方向から先頭方向へ要素を辿れる双方向リスト。 |
+| deque | 双方向キューを表すコンテナで、vectorとほぼ同じだが、先頭への挿入削除も高速に行える。 |
+| queue<br>priority_queue<br>stack | それぞれキュー、優先順位付きキュー、スタックを表すコンテナ。キューは末尾に要素を追加して、先頭から要素を取り出せるFIFOのコンテナ。優先順位付きキューは、高い優先順位を持つ要素から順に取り出せるキューで、デフォルトでは値が大きい要素ほど高い優先順位が割り当てられる。スタックは、末尾に要素を追加し、末尾要素から処理していくFILOのコンテナ。 |
+| set<br>multiset<br>unordered_set<br>unordered_multiset | 集合を表す連想コンテナ。setとmultisetはキーの比較関数(デフォルトでは`<`演算子)に基づいて要素の挿入、削除時に自動的にソートする。unorderedコンテナの場合は、キーのハッシュを使用して要素が管理されるため順序を持たない分、高速な検索ができる。setとunordered_setは等価の要素を複数格納できない。multisetとunordered_multisetは複数格納できる。 |
+| map<br>multimap<br>unordered_map<br>unordered_multimap | キーと値のペアで要素を保持する連想コンテナ。辞書とも呼ばれる。 |
+| basic_string |  |
+| initializer_list |  |
+
+### イテレータ
+イテレータは反復子とも呼ばれ、コンテナ内の各要素を参照するためのポインタのようなもの。
 
 1. 比較演算子(!=)で比較できる`(first != last)`。
 2. 間接参照演算子(*)で要素を参照できる。
@@ -149,15 +161,15 @@ class Vector2d {
 5. デクリメント演算子(--)で1つ手前の要素を指す。
 6. 加算/減算演算子(+/-)によって整数値を足す/引くことで任意の数だけ進んだり戻ったりできる。
 
-1～3の要件を満たすイテレーターは<b>入力イテレーター</b>、
+1～3の要件を満たすイテレータは<b>入力イテレータ</b>、
 
-1と3と4を満たすなら<b>出力イテレーター</b>、
+1と3と4を満たすなら<b>出力イテレータ</b>、
 
-1～4を満たすなら<b>順方向イテレーター</b>、
+1～4を満たすなら<b>順方向イテレータ</b>、
 
-1～5を満たすなら<b>双方向イテレーター</b>、
+1～5を満たすなら<b>双方向イテレータ</b>、
 
-1～6を満たすなら<b>ランダムアクセスイテレーター</b>と呼ぶ。
+1～6を満たすなら<b>ランダムアクセスイテレータ</b>と呼ぶ。
 
 ---
 
@@ -223,7 +235,7 @@ constexpr int max_size = 100; // コンパイル時に値が確定するのでok
 ```
 
 変数宣言に`constexpr`を付けると、コンパイラにこの変数はコンパイル時に値が確定してるはずだ、
-ということを明示して宣言することにより、コンパイル時に値の計算がされ実行時のオーバーヘッドを削減できる。<br>
+ということを明示して宣言することができ、コンパイル時に値の計算がされ実行時のオーバーヘッドを削減できる。<br>
 コンパイル時に値が確定していない場合はコンパイルエラーとなる。
 
 ```cpp
@@ -1428,11 +1440,64 @@ public:
 
 ---
 
-## 例外処理
+## エラーハンドリング <a id="error-handling" data-name="エラーハンドリング"></a>
 
 
 
 
+### オプショナル <br> `<optional>` <span class="label">C++17</span>
+`std::optional`はC++17で導入された、値が存在するかもしれないし、存在しないかもしれない状態を表現するためのテンプレートクラス。
+
+```cpp
+// 値を返すか、何も返さない関数
+std::optional<int> divide(int a, int b) {
+    if (b == 0) {
+        return std::nullopt;  // 値なし
+    }
+    return a / b;  // 値あり
+}
+
+int main() {
+    auto result1 = divide(10, 2);
+    auto result2 = divide(10, 0);
+    
+    // 値の存在確認
+    if (result1.has_value()) {
+        std::cout << "結果: " << result1.value() << std::endl;  // 5
+    }
+    
+    // より簡潔な書き方
+    if (result2) {
+        std::cout << "結果: " << *result2 << std::endl;
+    } else {
+        std::cout << "計算できません" << std::endl;
+    }
+}
+```
+
+<div class="subtitle">主なメソッド</div>
+
+| メソッド | 説明 |
+|---|---|
+| opt.has_value() | 値を持っているか確認 |
+| opt.value() | 値を取得(なければ例外) |
+| opt.value_or(default) | 値があれば取得、なければデフォルトを返す |
+| reset() | 値をクリアする |
+
+<div class="subtitle">値へのアクセス</div>
+
+```cpp
+std::optional<int> opt = 42;
+
+// 方法1: value()を使う（安全だが例外の可能性あり）
+int val1 = opt.value();
+
+// 方法2: *演算子を使う（値がないとき未定義動作）
+int val2 = *opt;
+
+// 方法3: value_or()を使う（最も安全）
+int val3 = opt.value_or(0);  // 値がなければ0
+```
 
 ## プリプロセッサ <a id="preprocessor" data-name="プリプロセッサ"></a>
 プリプロセッサディレクティブは、コンパイルの前段階でソースコードに対して特定の処理を行う仕組み。<br>
@@ -1941,12 +2006,12 @@ std::cout << std::get<double>(t) << std::endl; // double型の要素
 ```
 
 ### バリアント <span class="label">C++17</span> <br> `<variant>`
-variantは、C++17で導入された型安全な共有体(union)で、宣言された、継承関係にない複数の型のうち1つだけ値を代入できる。
+variantは、C++17で導入された型安全な共有体(union)で、宣言された継承関係にない複数の型のうち1つだけ値を代入できる。
 
 ```cpp
 // int, double, stringのいずれかを代入できる。
 std::variant<int, double, std::string> v = 3;
-// 初期化しない場合は最初の型のデフォルト値(intの0)となる。
+// 初期化しない場合は最初の型のデフォルト値(この場合intの0)となる。
 std::variant<int , double> v2{};
 
 int n = std::get<int>(v); // intの値を取り出す
@@ -1973,8 +2038,15 @@ if (std::holds_alternative<std::string>(v)) {
 `std::get<型>()`は、指定した型の値が代入されていなかった場合、`std::bad_variant_access`例外を送出する。<br>
 また`std::get<定数>()`は定数値によってindexを指定することもできる。
 
+<div class="subtitle">visitによる型安全なパターンマッチング</div>
+
 ```cpp
-// visitによる型安全なパターンマッチング
+std::visit(visitor, variant);
+```
+
+visitorに呼び出し可能オブジェクト、variantに`std::variant`のインスタンスを渡す。
+
+```cpp
 std::variant<int, double, std::string> v = "Hello";
 
 std::visit([](auto&& arg) {
@@ -1999,17 +2071,6 @@ int main() {
     }, v);
 }
 ```
-
-
-
-```cpp
-std::visit(visitor, variant);
-```
-
-visitorに呼び出し可能オブジェクト、variantに`std::variant`のインスタンスを渡す。
-
-
-
 
 ## ランダム <a id="random" data-name="ランダム"></a> <br> `<random>`
 C++のランダム生成は、大別して生成・範囲・分布の3つの部品で構成されており、それらを組み合わせることにより柔軟に選択できる。
