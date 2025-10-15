@@ -1901,6 +1901,19 @@ std::string to_upper(const std::string& s) {
 
 ## 正規表現 <a id="regex" data-name="正規表現"></a> <br> `<regex>`
 
+<div class="subtitle">Row文字列</div>
+Row文字列を使うことにより、文字列が生(Row)の文字列となり、エスケープなしに正規表現として扱える。
+
+```cpp
+// R"()"の中の\d+を表す
+std::regex re(R"(\d+)");
+
+// R"regex()regex"の中の\w+\s*\(\d+\)を表す
+std::regex re(R"regex(\w+\s*\(\d+\))regex");
+```
+
+`regex()regex`のように好きな文字列で囲むとカスタムデリミタとなり、()の中に()を入れられるようになる。
+
 ### 文字列全体が正規表現にマッチするか調べる<br>std::regex_match();
 文字列全体が正規表現にマッチするかを調べるには、`std::regex_match()`を使う。
 
@@ -1986,10 +1999,13 @@ std::pair<int, std::string> p{1, "hello"}; // 初期化
 
 p = std::make_pair(2, "world"); // まとめて値を指定
 
+auto p = std::make_pair(10, 3.14); // 型推論を利用して生成
+
 std::cout << p.first << std::endl; // 1つ目の要素
 std::cout << p.second << std::endl; // 2つ目の要素
 std::cout << std::get<0> << std::endl; // 1つ目の要素
 std::cout << std::get<int> << std::endl; // int型の要素
+
 ```
 
 ### タプル <br> `<tuple>`
