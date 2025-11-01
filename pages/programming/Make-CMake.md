@@ -130,12 +130,7 @@ add_executable(MyApp main.cpp utils.cpp)
 
 - よく使うオプション構文
 
-<pre><code class="example">set(SRC
-    main.cpp
-    utils.cpp
-    math/add.cpp
-    math/sub.cpp
-)
+<pre><code class="example">set(SRC main.cpp utils.cpp math/add.cpp math/sub.cpp)
 add_executable(MyApp ${SRC})</code></pre>
 
 
