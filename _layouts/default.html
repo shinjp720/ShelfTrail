@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ page.title }} | {{ site.title }}</title>
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+    <script src="{{ site.baseurl }}/assets/js/script.js" defer></script>
+    <link rel="icon" href="{{ site.baseurl }}/favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+
+    <!-- 全体を表すコンテナ -->
+    <div id="container">
+
+        <!-- 左メニュー開閉ボタン -->
+        <button id="menuBtn">☰</button>
+        <!-- 右目次開閉ボタン -->
+        <button id="tocBtn">≡</button>
+
+        <!-- ナビゲーション -->
+        <div id="navi">
+            {% include navi.html %}
+        </div>
+
+        <!-- メインコンテンツ -->
+        <div id="main" autofocus="">
+            {{ content }}
+        </div>
+
+        <!-- 目次 -->
+        <div id="toc">
+        </div>
+
+        <!-- 背景オーバーレイ -->
+        <div id="overlay"></div>
+    </div>
+
+</body>
+
+</html>

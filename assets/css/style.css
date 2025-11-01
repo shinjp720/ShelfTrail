@@ -1,0 +1,276 @@
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+}
+
+h1 {
+    font-size: 4.8rem;
+}
+
+h2 {
+    font-size: 3rem;
+    background-color: rgb(199, 199, 199);
+}
+
+h3 {
+    font-size: 2.6rem;
+}
+
+/* naviのリスト */
+#navi ul {
+    list-style: none;
+    padding-left: 1.6rem;
+}
+
+/* tocのリスト */
+#toc ul {
+    list-style: none;
+}
+
+
+
+
+/* テーブル */
+table {
+    border-collapse: collapse;
+    margin: 15px;
+}
+
+table caption {
+    text-align: left;
+    font-weight: bold;
+}
+
+th {
+    background-color: #dfdfdf;
+}
+
+th,
+tr,
+td {
+    border: 1px solid black;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+/* コード */
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+pre code {
+    display: block;
+    color: white;
+    background-color: black;
+    padding: 10px;
+}
+
+
+/* 例 */
+.example {
+    display: block;
+    color: black;
+    background-color: rgb(191, 255, 180);
+    font-weight: bold;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+/* 注意 */
+.caution {
+    display: block;
+    color: black;
+    background-color: rgb(255, 204, 198);
+    font-weight: bold;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+/* tips */
+.tips {
+    display: block;
+    color: black;
+    background-color: #fdff95;
+    font-weight: bold;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+/* サブタイトル */
+.subtitle {
+    display: block;
+    color: blue;
+    font-weight: bold;
+    font-size: 1.6rem;
+    padding: 10px;
+}
+
+/* 戻り値 */
+.return-value {
+    display: block;
+    color: rgb(172, 86, 198);
+    font-weight: bold;
+    font-size: 1.6rem;
+    padding: 10px;
+}
+
+/* ラベル */
+.label {
+    color: rgb(228, 227, 249);
+    background-color: #7e69f4;
+    padding: 5px;
+}
+
+/* コード風 */
+.code-like {
+    display: inline-block;
+    background-color: black;
+    color: white;
+    font-family: monospace;
+    padding: 5px;
+}
+
+/* 警告 */
+.warning {
+    color: rgb(255, 255, 255);
+    background-color: red;
+    padding: 5px;
+}
+
+/* -----------------レイアウト----------------- */
+/* 全体を横並びに */
+#container {
+    display: flex;
+    height: 100vh;
+}
+
+/* ナビゲーション */
+#navi {
+    width: 200px;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+/* メインコンテンツ */
+#main {
+    background-color: #ffffff18;
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+    padding: 1rem;
+}
+
+/* 目次 */
+#toc {
+    width: 200px;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+#navi,
+#toc {
+    color: black;
+    background-color: #dbd9d9;
+}
+
+/* ボタンはデフォルト非表示（PC用） */
+#menuBtn,
+#tocBtn {
+    display: none;
+}
+
+/* オーバーレイはデフォルト非表示 */
+#overlay {
+    display: none;
+}
+
+/* ----------- スマホ用 ----------- */
+@media screen and (max-width: 768px) {
+    #container {
+        display: block;
+        /* 横並び解除 */
+    }
+
+    #navi,
+    #toc {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 200px;
+        background-color: #f3f1f1;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+    }
+
+    /* 左メニューは左から隠す */
+    #navi {
+        left: 0;
+        transform: translateX(-100%);
+    }
+
+    /* 右目次は右から隠す */
+    #toc {
+        right: 0;
+        transform: translateX(100%);
+    }
+
+    /* 開いたときの状態 */
+    #navi.open {
+        transform: translateX(0);
+    }
+
+    #toc.open {
+        transform: translateX(0);
+    }
+
+    /* メインは全幅に */
+    #main {
+        width: 100%;
+        height: auto;
+    }
+
+    /* 開閉ボタンの見た目と位置 */
+    #menuBtn,
+    #tocBtn {
+        display: block;
+        position: fixed;
+        top: 10px;
+        padding: 0.5rem 1rem;
+        background: #333;
+        color: white;
+        border: none;
+        cursor: pointer;
+        z-index: 1100;
+    }
+
+    #menuBtn {
+        left: 10px;
+    }
+
+    #tocBtn {
+        right: 10px;
+    }
+
+    /* オーバーレイ（メニュー開いた時に背景を覆う） */
+    #overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 900;
+        /* メニューより下 */
+    }
+
+    #overlay.show {
+        display: block;
+    }
+}
