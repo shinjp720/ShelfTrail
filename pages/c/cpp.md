@@ -1987,6 +1987,15 @@ if (s.find("keyword") != std::string::npos) {
     <tr><td>s.replace(i, n, "word")</td><td>sのi番目の位置からn文字をwordに書き換える</td></tr>
 </table>
 
+<pre><code class="example">// 同じ名前の別物(algorithm)
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+
+std::string s = "a b c d";
+std::replace(s.begin(), s.end(), ' ', '_'); // 空白を'_'に
+std::cout << s;  // "a_b_c_d"
+</code></pre>
+
 <table>
     <caption>挿入・削除</caption>
     <tr><th>メソッド</th><th>説明</th></tr>
