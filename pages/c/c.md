@@ -7,9 +7,7 @@ layout: default
 
 ---
 
-<a id="operator" data-name="演算子"></a>
-
-## 演算子
+## 演算子 <a id="operator" data-name="演算子"></a>
 
 ### 演算子の優先順位
 
@@ -205,7 +203,87 @@ int main(void) {
 
 ## 制御構文 <a id="control-syntax" data-name="制御構文"></a>
 
+<pre><code class="tips">// いずれかの文を交互に実行する
+if (flag)
+    // 実行するコード
+    flag = 0;
+else
+    // 実行するコード
+    flag = 1;</code></pre>
 
+
+<pre><code class="tips">// 常に3つのパターンを順番に繰り返す
+while (1) {
+    switch (count %= 3) {
+    case 0:
+        // 実行するコード
+        break;
+    case 1:
+        // 実行するコード
+        break;
+    case 2:
+        // 実行するコード
+        break;
+    }
+    count++;
+}</code></pre>
+
+<pre><code class="tips">// 複雑な判定を関数に委譲して見通しをよくする
+#define TEMP_HIGH   (1 << 0)
+#define TEMP_LOW    (1 << 1)
+#define HUMID_HIGH  (1 << 2)
+#define HUMID_LOW   (1 << 3)
+
+int evaluate_conditions(float temperature, float humidity) {
+    int flags = 0;
+
+    if (temperature > 30.0f)
+        flags |= TEMP_HIGH;
+    else if (temperature < 10.0f)
+        flags |= TEMP_LOW;
+
+    if (humidity > 70.0f)
+        flags |= HUMID_HIGH;
+    else if (humidity < 30.0f)
+        flags |= HUMID_LOW;
+
+    return flags;
+}
+
+void process_environment(float temperature, float humidity) {
+    int flags = evaluate_conditions(temperature, humidity);
+
+    switch (flags) {
+        case TEMP_HIGH | HUMID_HIGH:
+            printf("⚠️ 暑くて湿度が高いです。熱中症に注意！\n");
+            break;
+        case TEMP_LOW | HUMID_LOW:
+            printf("🥶 寒くて乾燥しています。風邪に注意！\n");
+            break;
+        case TEMP_HIGH:
+            printf("🌡 暑いですが湿度は問題ありません。\n");
+            break;
+        case TEMP_LOW:
+            printf("❄ 寒いですが湿度は普通です。\n");
+            break;
+        case HUMID_HIGH:
+            printf("💧 湿度が高いですが温度は快適です。\n");
+            break;
+        case HUMID_LOW:
+            printf("💨 乾燥していますが温度は快適です。\n");
+            break;
+        default:
+            printf("🙂 快適な環境です。\n");
+            break;
+    }
+}
+
+int main(void) {
+    process_environment(35.0f, 75.0f); // 暑くて湿度が高い
+    process_environment(5.0f, 25.0f);  // 寒くて乾燥
+    process_environment(28.0f, 50.0f); // 快適
+    process_environment(33.0f, 40.0f); // 暑い
+}</code></pre>
 
 ---
 
@@ -327,6 +405,15 @@ C言語では、関数の引数に「配列」を書いても、実際にはポ�
     printf("other\n");
 #endif
 ```
+
+<pre><code class="tips">// 実行するコードを真にして有効化する
+#if 0
+    // 実行するコード
+#elif 1
+    // 実行するコード
+#else
+    // 実行するコード
+#endif</code></pre>
 
 ---
 
