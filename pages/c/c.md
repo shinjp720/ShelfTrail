@@ -109,7 +109,8 @@ if ((flag & FLAG_A) == 0) {
         <pre><code class="example">// 上位3ビットが 0b110xxxxx である
 if ((flag & 0b00100000) == 0 && (flag & 0b11000000) == 0b11000000) {}
 // または
-if ((flag & 0b11100000) == 0b11000000) {}</code></pre>
+if ((flag & 0b11100000) == 0b11000000) {}
+// つまり確認したいビットを1にして&する</code></pre>
         </td><td>x & y</td></tr>
     <tr><td>~</td><td>ビット反転(NOT)</td><td>xの0と1を反転</td><td>~x</td></tr>
     <tr><td><<</td><td>左シフト</td><td>xをn左にシフト。</td><td>x << n</td></tr>
