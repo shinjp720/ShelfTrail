@@ -68,7 +68,7 @@ decltype(a + b) c = a + b;  // a+bはdoubleなので、cはdouble
 ```cpp
 int x = 10;
 decltype(x) a;    // int
-decltype((x)) b = x; // int&（括弧があるので左辺値扱い）
+decltype((x)) b = x; // int&(括弧があるので左辺値扱い)
 ```
 
 decltype((変数)) は式として評価されるので左辺値→参照型になる
@@ -1432,8 +1432,79 @@ int main() {
 
 ---
 
+## 修飾子 <a id="modifier" data-name="修飾子"></a>
+
+### 型
+
+| 修飾子 | 意味 | 例 |
+| :-- | :-- | :-- |
+| `const` | 定数。変更できない | `const int x = 10;` |
+| `volatile` | 最適化禁止(ハードウェアレジスタなど) | `volatile int flag;` |
+| `mutable` | constメンバ関数内でも変更可能にする | `mutable int cache;` |
+| `constexpr` | コンパイル時に評価可能 | `constexpr int square(int n){return n*n;}` |
+| `consteval` | 常にコンパイル時に評価 | `consteval int id(){return 42;}` |
+| `constinit` | 静的変数の初期化をコンパイル時に保証   | `constinit int x = 10;` |
+
+### 記憶領域・寿命
+
+| 修飾子                 | 意味               | 例                       |
+| :------------------ | :--------------- | :---------------------- |
+| `static`            | ファイルスコープ or 静的寿命 | `static int count;`     |
+| `extern`            | 他ファイルに定義あり       | `extern int g_value;`   |
+| `thread_local`      | スレッドごとの変数        | `thread_local int tid;` |
+| `register` (C++17廃止) | レジスタ指定(今は無意味)    | `register int i;`       |
+
+### クラスメンバ
+
+| 修飾子        | 意味               | 例                           |
+| :--------- | :--------------- | :-------------------------- |
+| `virtual`  | 仮想関数             | `virtual void draw();`      |
+| `override` | 親クラスの仮想関数を上書き    | `void draw() override;`     |
+| `final`    | 継承/オーバーライド禁止     | `class A final {};`         |
+| `explicit` | 暗黙変換を禁止          | `explicit MyClass(int x);`  |
+| `friend`   | 外部関数/クラスからアクセス可能 | `friend void debug();`      |
+| `inline`   | 複数定義可(内部リンク対策)   | `inline int f(){return 1;}` |
+
+### 関数(文法・例外・呼び出し)
+
+| 修飾子             | 意味          | 例                           |
+| :-------------- | :---------- | :-------------------------- |
+| `noexcept`      | 例外を投げない     | `void f() noexcept;`        |
+| `[[nodiscard]]` | 戻り値を無視すると警告 | `[[nodiscard]] int calc();` |
+| `[[noreturn]]`  | 戻らない関数      | `[[noreturn]] void exit();` |
+
+
+### ポインタ・参照
+
+| 修飾子                | 意味                              | 例                |
+| :----------------- | :------------------------------ | :--------------- |
+| `*`                | ポインタ                            | `int *p;`        |
+| `&`                | 参照                              | `int &r = x;`    |
+| `&&`               | 右辺値参照                           | `int &&tmp = 3;` |
+| `const` の位置で意味が変わる | `const int*` と `int* const` は違う |                  |
+
+### テンプレート・特殊化
+
+| 修飾子                    | 意味          | 例                                 |
+| :--------------------- | :---------- | :-------------------------------- |
+| `typename`             | 型名であることを明示  | `typename T::value_type`          |
+| `template`             | テンプレート名だと明示 | `template<typename U> void f();`  |
+| `concept` / `requires` | 制約付きテンプレート  | `template<Integral T> void f(T);` |
+
+### その他
+
+| 修飾子        | 意味        | 例                    |
+| :--------- | :-------- | :------------------- |
+| `alignas`  | アラインメント指定 | `alignas(16) int v;` |
+| `alignof`  | アラインメント取得 | `alignof(int)`       |
+| `decltype` | 型を推論      | `decltype(x+y) z;`   |
+| `auto`     | 型推論       | `auto i = 42;`       |
+| `register` | (今は意味なし)  | `register int i;`    |
+
+---
+
 ## 継承 <a id="inheritance" data-name="継承"></a>
-あるクラスの異なる部分を追加、変更してクラスを再利用することを継承という。
+あるクラスの異なる部分を追加、変更してクラスを再利用することを継承という。<br>
 継承すると基底クラスのメンバ変数とメンバ関数を全て引き継ぐ。
 
 <span class="subtitle">基本構文</span>
@@ -1453,13 +1524,13 @@ class 派生クラス名 : アクセス修飾子 基底クラス名
 ```cpp
 class A
 {
-public:
+  public:
     virtual void show() { std::cout << "class A" << std::endl; }
 };
 
 class B : public A
 {
-public:
+  public:
     void show() { std::cout << "class B" << std::endl; }
 };
 ```
@@ -1467,12 +1538,13 @@ public:
 virtualを付けずにメンバ関数を定義すると名前の隠蔽が発生して、オーバーライドではなく基底クラスの関数を隠す挙動となり、別の関数として扱われる。<br>
 基底クラスのポインタに派生クラスのアドレスを入れて、動的ポリモーフィズムで関数を呼ぶ場合はvirtualが必要となる(virtualが無いと、この場合基底クラスの関数が呼ばれる)。
 
-<span class="label">C++11以降</span> では、<span class="code-like">override</span> 指定子が導入されたので、派生クラスでオーバーライドする際はoverride指定子を付けることが推奨される。
+<pre><code class="caution"><span class="label">C++11以降</span> では、<span class="code-like">override</span> 指定子が導入されたので、派生クラスでオーバーライドする際はoverride指定子を付けることが推奨される。</code></pre>
+
 
 ```cpp
 class B : public A
 {
-public:
+  public:
     void show() override { std::cout << "class B" << std::endl; }
 };
 ```
@@ -1482,7 +1554,7 @@ public:
 ```cpp
 class B : public A
 {
-public:
+  public:
     void show() override final { std::cout << "class B" << std::endl; }
 };
 ```
@@ -1508,7 +1580,7 @@ virtual 戻り値の型 関数名([引数]) = 0; // 純粋仮想関数
 ```cpp
 class Derived : public Base
 {
-public:
+  public:
     using Base::func;  // ← これで名前隠蔽を解除
     void func(string) { cout << "Derived::func(string)\n"; }
 };
@@ -1553,7 +1625,7 @@ std::exceptionを生成するには、std::exceptionクラスを継承したク�
 
 class MyError : public std::exception {
     std::string msg;
-public:
+  public:
     explicit MyError(const std::string& m) : msg(m) {}
     const char* what() const noexcept override {
         return msg.c_str();
@@ -1621,13 +1693,13 @@ int main() {
 ```cpp
 std::optional<int> opt = 42;
 
-// 方法1: value()を使う（安全だが例外の可能性あり）
+// 方法1: value()を使う(安全だが例外の可能性あり)
 int val1 = opt.value();
 
-// 方法2: *演算子を使う（値がないとき未定義動作）
+// 方法2: *演算子を使う(値がないとき未定義動作)
 int val2 = *opt;
 
-// 方法3: value_or()を使う（最も安全）
+// 方法3: value_or()を使う(最も安全)
 int val3 = opt.value_or(0);  // 値がなければ0
 ```
 
@@ -1759,6 +1831,98 @@ in.open("file2.txt");  // 別ファイルを再利用して開く</code></pre>
 
 <pre><code class="example">std::ofstream log;
 log.open("log.txt", std::ios::out | std::ios::app); // 追記モード</code></pre>
+
+### 入力の基本的な流れ
+
+<pre><code class="example">#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+
+int main() {
+    std::ifstream ifs("data.txt"); // ファイルを開く
+    if (!ifs) { // 開けなかった場合のエラー処理
+        std::cerr << "ファイルを開けませんでした。\n";
+        return 1;
+    }
+
+    std::string line;
+    while (std::getline(ifs, line)) { // 1行ずつ読み込む
+        std::cout << line << '\n';   // 行ごとに処理する
+    }
+
+    // 自動的にファイルは閉じられる（RAII）
+    return 0;
+}</code></pre>
+
+- 行単位で処理
+  <pre><code class="example">std::string line;
+while (std::getline(ifs, line)) {
+    // lineの中身をトークン分割したり解析したりする
+}</code></pre>
+
+- 単語単位で処理
+  <pre><code class="example">std::string word;
+while (ifs >> word) {
+    std::cout << word << '\n';
+}</code></pre>
+  この場合はホワイトスペースで区切られる。
+
+- 構造化されたデータを読み込む
+  <pre><code class="example">int x;
+double y;
+while (ifs >> x >> y) {
+    std::cout << "x=" << x << ", y=" << y << '\n';
+}</code></pre>
+
+- ファイル全体を一気に読み込む
+  <pre><code class="example">#include &lt;sstream&gt;<br>
+std::ifstream ifs("data.txt");
+std::stringstream buffer;
+buffer &lt;&lt; ifs.rdbuf();
+std::string content = buffer.str();<br>
+std::cout &lt;&lt; content;</code></pre>
+
+- バイナリを読み込む
+  <pre><code class="example">std::ifstream ifs("image.bin", std::ios::binary);
+if (!ifs) return 1;<br>
+std::vector&lt;char&gt; data((std::istreambuf_iterator&lt;char&gt;(ifs)),
+    std::istreambuf_iterator&lt;char&gt;());
+// dataにファイル内容がそのまま入る</code></pre>
+
+- 指定したデリミタ(区切り)で読み込む
+  <pre><code class="example">#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;sstream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;<br>
+int main() {
+    std::ifstream ifs("data.csv");
+    if (!ifs) {
+        std::cerr << "ファイルを開けませんでした\n";
+        return 1;
+    }<br>
+    std::string line;
+    while (std::getline(ifs, line)) {  // 行単位で読む
+        std::vector<std::string> fields;
+        std::stringstream ss(line);    // 行をストリームとして扱う
+        std::string field;<br>
+        while (std::getline(ss, field, ',')) {  // ',' 区切りで読む
+            fields.push_back(field);
+        }<br>
+        // 確認用出力
+        for (auto& f : fields) std::cout << "[" << f << "]";
+        std::cout << "\n";
+    }
+}</code></pre>
+
+
+
+
+
+
+
+
+
 
 ---
 
@@ -1936,7 +2100,7 @@ s1 += "!";                       // "Hello!"
 ```cpp
 std::string s = "Hello";
 char c1 = s[0];      // 'H'
-char c2 = s.at(1);   // 'e'（範囲外なら例外）
+char c2 = s.at(1);   // 'e'(範囲外なら例外)
 s[0] = 'h';          // 先頭を小文字に
 ```
 
@@ -2040,6 +2204,41 @@ std::string to_upper(const std::string& s) {
 }
 ```
 
+---
+
+## 文字列ストリーム <a id="sstream" data-name="文字列ストリーム"></a> <br> `<sstream>`
+文字列をストリームとして扱うためのクラスで、C++の入出力ストリームの仕組みを文字列に対して行うための仕組み。
+
+<pre><code class="example">#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+#include &lt;string&gt;
+
+int main() {
+    std::stringstream ss;
+
+    // 書き込み（出力ストリームとして使う）
+    ss << "123 " << 45.6 << " hello";
+
+    // 読み込み（入力ストリームとして使う）
+    int a;
+    double b;
+    std::string c;
+
+    ss >> a >> b >> c;
+
+    std::cout << a << ", " << b << ", " << c << "\n";
+}</code></pre>
+
+### 主な種類
+
+| クラス名                 | 用途     | 説明                      |
+| -------------------- | ------ | ----------------------- |
+| `std::istringstream` | 入力専用   | 文字列から値を読み取る（`>>`）       |
+| `std::ostringstream` | 出力専用   | 文字列に書き込む（`<<`）          |
+| `std::stringstream`  | 入出力両方可 | 両方できる（`>>` も `<<` も使える） |
+
+---
+
 ## 正規表現 <a id="regex" data-name="正規表現"></a> <br> `<regex>`
 
 <div class="subtitle">Row文字列</div>
@@ -2097,8 +2296,6 @@ if (regex_search(s, result, re)) {
 文字列sが正規表現に部分的にマッチすればtrue、マッチしなければfalseが返る。
 
 ### 正規表現で置換する<br>std::regex_replace();
-
-
 
 ```cpp
 std::string s "今日の日付は2021/04/01です";
