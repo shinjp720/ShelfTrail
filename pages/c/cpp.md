@@ -2363,7 +2363,7 @@ std::cout << std::get<double>(t) << std::endl; // double型の要素
 variantは、C++17で導入された型安全な共有体(union)で、宣言された継承関係にない複数の型のうち1つだけ値を代入できる。
 
 ```cpp
-// int, double, stringのいずれかを代入できる。
+// int, double, stringのいずれかを代入できるvariant
 std::variant<int, double, std::string> v = 3;
 // 初期化しない場合は最初の型のデフォルト値(この場合intの0)となる。
 std::variant<int , double> v2{};
